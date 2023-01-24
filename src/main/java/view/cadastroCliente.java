@@ -6,6 +6,8 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -66,6 +68,11 @@ public class cadastroCliente extends javax.swing.JDialog {
         labelTitle.setText("Cadastro de clientes");
 
         jLabel1.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
+        jLabel1.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,6 +173,11 @@ public class cadastroCliente extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments

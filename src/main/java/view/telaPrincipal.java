@@ -6,13 +6,18 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -46,6 +51,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         JPanel fundoLimpo = new JPanel();
+        ButtonGroup buttonGroup1 = new ButtonGroup();
         JPanel jPanel1 = new JPanel();
         JLabel systemTitle = new JLabel();
         JLabel jLabel2 = new JLabel();
@@ -89,7 +95,7 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(systemTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(254, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -97,7 +103,7 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addComponent(systemTitle)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new Color(255, 255, 255));
@@ -118,27 +124,32 @@ public class telaPrincipal extends javax.swing.JFrame {
         });
 
         jLabel1.setIcon(new ImageIcon(getClass().getResource("/borrowBook.png"))); // NOI18N
+        jLabel1.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(registerClient)
-                    .addComponent(registerLivro))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(registerLivro)
+                    .addComponent(jLabel1))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(registerClient)
-                .addGap(30, 30, 30)
+                .addGap(22, 22, 22)
                 .addComponent(registerLivro)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(24, 24, 24))
+                .addGap(22, 22, 22))
         );
 
         jPanel3.setBackground(new Color(255, 255, 255));
@@ -160,7 +171,7 @@ public class telaPrincipal extends javax.swing.JFrame {
         GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -201,6 +212,12 @@ public class telaPrincipal extends javax.swing.JFrame {
         cadastroLivro livro = new cadastroLivro(this, rootPaneCheckingEnabled);
         livro.setVisible(true);
     }//GEN-LAST:event_registerLivroMouseClicked
+
+    private void jLabel1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        emprestimo emprestimo = new emprestimo(this, rootPaneCheckingEnabled);
+        emprestimo.setVisible(true);
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments

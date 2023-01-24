@@ -21,12 +21,12 @@ import javax.swing.WindowConstants;
  *
  * @author Saimon
  */
-public class cadastroLivro extends javax.swing.JDialog {
+public class emprestimo extends javax.swing.JDialog {
 
     /**
-     * Creates new form emprestimoLivro
+     * Creates new form emprestimo
      */
-    public cadastroLivro(java.awt.Frame parent, boolean modal) {
+    public emprestimo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -41,32 +41,30 @@ public class cadastroLivro extends javax.swing.JDialog {
     private void initComponents() {
 
         JPanel jPanel1 = new JPanel();
-        JLabel labelTitle = new JLabel();
         JLabel jLabel1 = new JLabel();
+        JLabel jLabel2 = new JLabel();
         JPanel jPanel2 = new JPanel();
-        JLabel tituloLivro = new JLabel();
-        nome = new JTextField();
-        autorTitle = new JLabel();
-        autor = new JTextField();
-        publicAno = new JLabel();
-        anoPub = new JTextField();
-        JLabel paginasTitle = new JLabel();
-        paginas = new JTextField();
-        editoraTitle = new JLabel();
-        editora = new JTextField();
+        JLabel Livro = new JLabel();
+        bookCode = new JTextField();
+        ClienteName = new JLabel();
+        ClienteEmprestimo = new JTextField();
+        JLabel jLabel5 = new JLabel();
+        dtEmprest = new JTextField();
+        JLabel jLabel6 = new JLabel();
+        dtDevolv = new JTextField();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new Color(0, 102, 102));
 
-        labelTitle.setFont(new Font("Segoe UI", 1, 24)); // NOI18N
-        labelTitle.setForeground(new Color(255, 255, 255));
-        labelTitle.setText("Cadastro de livro");
+        jLabel1.setFont(new Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new Color(255, 255, 255));
+        jLabel1.setText("Emprestimo");
 
-        jLabel1.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
-        jLabel1.addMouseListener(new MouseAdapter() {
+        jLabel2.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
+        jLabel2.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                jLabel2MouseClicked(evt);
             }
         });
 
@@ -74,87 +72,78 @@ public class cadastroLivro extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(labelTitle, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                    .addComponent(labelTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                    .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         jPanel2.setBackground(new Color(255, 255, 255));
         jPanel2.setBorder(BorderFactory.createEtchedBorder());
 
-        tituloLivro.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        tituloLivro.setText("titulo:");
+        Livro.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        Livro.setText("Codigo do livro:");
 
-        autorTitle.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        autorTitle.setText("Autor:");
+        ClienteName.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        ClienteName.setText("Codigo do Cliente:");
 
-        publicAno.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        publicAno.setText("Ano de publicação:");
+        jLabel5.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setText("Emprestimo:");
 
-        paginasTitle.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        paginasTitle.setText("Paginas:");
-
-        editoraTitle.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        editoraTitle.setText("Editora:");
+        jLabel6.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setText("Devolução:");
 
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                        .addComponent(editoraTitle)
-                        .addComponent(autorTitle)
-                        .addComponent(tituloLivro)
-                        .addComponent(nome, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-                        .addComponent(autor)
-                        .addComponent(editora))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(bookCode)
+                    .addComponent(ClienteEmprestimo)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(paginasTitle)
-                            .addComponent(paginas, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
-                        .addGap(53, 53, 53)
+                            .addComponent(ClienteName)
+                            .addComponent(Livro))
+                        .addGap(107, 107, 107))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(publicAno)
-                            .addComponent(anoPub, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(29, Short.MAX_VALUE))
+                            .addComponent(jLabel5)
+                            .addComponent(dtEmprest, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(dtDevolv, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(tituloLivro)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(autorTitle)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(autor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(paginasTitle)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(paginas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(publicAno)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(anoPub, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26)
-                .addComponent(editoraTitle)
+                .addComponent(Livro)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editora, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addComponent(bookCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ClienteName)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ClienteEmprestimo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(dtEmprest, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dtDevolv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -177,9 +166,9 @@ public class cadastroLivro extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void jLabel2MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -198,21 +187,20 @@ public class cadastroLivro extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(cadastroLivro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(emprestimo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(cadastroLivro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(emprestimo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(cadastroLivro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(emprestimo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(cadastroLivro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(emprestimo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                cadastroLivro dialog = new cadastroLivro(new javax.swing.JFrame(), true);
+                emprestimo dialog = new emprestimo(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -225,13 +213,10 @@ public class cadastroLivro extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    JTextField anoPub;
-    JTextField autor;
-    JLabel autorTitle;
-    JTextField editora;
-    JLabel editoraTitle;
-    JTextField nome;
-    JTextField paginas;
-    JLabel publicAno;
+    JTextField ClienteEmprestimo;
+    JLabel ClienteName;
+    JTextField bookCode;
+    JTextField dtDevolv;
+    JTextField dtEmprest;
     // End of variables declaration//GEN-END:variables
 }
