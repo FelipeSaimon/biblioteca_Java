@@ -4,31 +4,38 @@
  */
 package view;
 
+import controller.emprestimoController;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import static java.lang.Integer.parseInt;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import model.emprestimo;
 
 /**
  *
  * @author Saimon
  */
-public class emprestimo extends javax.swing.JDialog {
-
+public class emprestimoView extends javax.swing.JDialog {
+    emprestimoController emprestControl;
     /**
      * Creates new form emprestimo
      */
-    public emprestimo(java.awt.Frame parent, boolean modal) {
+    public emprestimoView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        emprestControl = new emprestimoController();
     }
 
     /**
@@ -42,7 +49,7 @@ public class emprestimo extends javax.swing.JDialog {
 
         JPanel jPanel1 = new JPanel();
         JLabel jLabel1 = new JLabel();
-        JLabel jLabel2 = new JLabel();
+        JLabel saveEmprestimo = new JLabel();
         JPanel jPanel2 = new JPanel();
         JLabel Livro = new JLabel();
         bookCode = new JTextField();
@@ -61,10 +68,10 @@ public class emprestimo extends javax.swing.JDialog {
         jLabel1.setForeground(new Color(255, 255, 255));
         jLabel1.setText("Emprestimo");
 
-        jLabel2.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
-        jLabel2.addMouseListener(new MouseAdapter() {
+        saveEmprestimo.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
+        saveEmprestimo.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                saveEmprestimoMouseClicked(evt);
             }
         });
 
@@ -75,14 +82,14 @@ public class emprestimo extends javax.swing.JDialog {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+                .addComponent(saveEmprestimo, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                    .addComponent(saveEmprestimo, GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
                     .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -166,9 +173,39 @@ public class emprestimo extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel2MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+    private void saveEmprestimoMouseClicked(MouseEvent evt) {//GEN-FIRST:event_saveEmprestimoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel2MouseClicked
+        
+        try{
+            emprestimo emprest = new emprestimo();
+            
+            emprest.setIdLivro(parseInt(bookCode.getText()));
+            emprest.setIdCliente(parseInt(ClienteEmprestimo.getText()));
+            
+            //FORMATANDO AS DADOS DE EMPRESTIMO E DEVOLUÇÃO
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            //EMPRESTIMO
+            //Setar a data como nula
+            Date dtEmprestimo = null;
+            //Pegar o valor digitado pelo usuário
+            dtEmprestimo = dateFormat.parse(dtEmprest.getText());
+            emprest.setDataEmprestimo((java.sql.Date) dtEmprestimo);
+            
+            //EMPRESTIMO
+            //Setar a data como nula
+            Date dtDevolucao = null;
+            //Pegar o valor digitado pelo usuário
+            dtDevolucao = dateFormat.parse(dtDevolv.getText());
+            emprest.setDataDevolucao((java.sql.Date) dtDevolucao);
+            
+            emprestControl.save(emprest);
+            JOptionPane.showMessageDialog(rootPane, "Livro emprestado com sucesso");
+            dispose();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }//GEN-LAST:event_saveEmprestimoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -187,20 +224,21 @@ public class emprestimo extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(emprestimo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(emprestimoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(emprestimo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(emprestimoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(emprestimo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(emprestimoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(emprestimo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(emprestimoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                emprestimo dialog = new emprestimo(new javax.swing.JFrame(), true);
+                emprestimoView dialog = new emprestimoView(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

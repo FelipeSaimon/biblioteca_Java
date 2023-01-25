@@ -4,31 +4,38 @@
  */
 package view;
 
+import controller.livroController;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import static java.lang.Integer.parseInt;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import model.livro;
 
 /**
  *
  * @author Saimon
  */
 public class cadastroLivro extends javax.swing.JDialog {
-
+    livroController livroControl;
     /**
      * Creates new form emprestimoLivro
      */
     public cadastroLivro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        livroControl = new livroController();
     }
 
     /**
@@ -45,7 +52,7 @@ public class cadastroLivro extends javax.swing.JDialog {
         JLabel jLabel1 = new JLabel();
         JPanel jPanel2 = new JPanel();
         JLabel tituloLivro = new JLabel();
-        nome = new JTextField();
+        titulo = new JTextField();
         autorTitle = new JLabel();
         autor = new JTextField();
         publicAno = new JLabel();
@@ -117,7 +124,7 @@ public class cadastroLivro extends javax.swing.JDialog {
                         .addComponent(editoraTitle)
                         .addComponent(autorTitle)
                         .addComponent(tituloLivro)
-                        .addComponent(nome, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                        .addComponent(titulo, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                         .addComponent(autor)
                         .addComponent(editora))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -135,7 +142,7 @@ public class cadastroLivro extends javax.swing.JDialog {
                 .addGap(20, 20, 20)
                 .addComponent(tituloLivro)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(titulo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(autorTitle)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -179,6 +186,31 @@ public class cadastroLivro extends javax.swing.JDialog {
 
     private void jLabel1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
+        
+        try {
+            livro livro = new livro();
+            
+            livro.setTitulo(titulo.getText());
+            livro.setAutor(autor.getText());
+            livro.setPaginas(parseInt(paginas.getText()));
+            livro.setEditora(editora.getText());
+            
+            //Formatar a data
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            //Setar a data como nula
+            Date anoPubl = null;
+
+            //Pegar o valor digitado pelo usuário
+            anoPubl = dateFormat.parse(anoPub.getText());
+            livro.setAnoPublicacao(anoPubl);
+            
+            livroControl.save(livro);
+            JOptionPane.showMessageDialog(rootPane, "Livro adicionado com sucesso");
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Erro ao adicionar um livro");
+        }
+        
     }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
@@ -230,8 +262,8 @@ public class cadastroLivro extends javax.swing.JDialog {
     JLabel autorTitle;
     JTextField editora;
     JLabel editoraTitle;
-    JTextField nome;
     JTextField paginas;
     JLabel publicAno;
+    JTextField titulo;
     // End of variables declaration//GEN-END:variables
 }

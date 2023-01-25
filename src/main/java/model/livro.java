@@ -91,5 +91,12 @@ public class livro {
     public void setDisponibilidade(boolean disponibilidade) {
         this.disponibilidade = disponibilidade;
     }
+
+    @Override
+    public String toString() {
+        return "livro{" + "idLivro=" + idLivro + ", idSecao=" + idSecao + ", titulo=" + titulo + ", autor=" + autor + ", paginas=" + paginas + ", anoPublicacao=" + anoPublicacao + ", editora=" + editora + ", disponibilidade=" + disponibilidade + '}';
+    }
+    
+    
 }
 

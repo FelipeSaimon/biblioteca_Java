@@ -26,7 +26,7 @@ public class emprestimoController {
             
             statement.setInt(1, emprestimo.getIdCliente());
             statement.setInt(2, emprestimo.getIdLivro());
-            statement.setDate(3, emprestimo.getData());
+            statement.setDate(3, emprestimo.getDataEmprestimo());
             statement.setDate(4, emprestimo.getDataDevolucao());
             statement.execute();
             
@@ -60,7 +60,7 @@ public class emprestimoController {
             statement = connect.prepareStatement(sql);
             statement.setInt(1, emprestimo.getIdCliente());
             statement.setInt(2, emprestimo.getIdLivro());
-            statement.setDate(3, emprestimo.getData());
+            statement.setDate(3, emprestimo.getDataEmprestimo());
             statement.setDate(4, emprestimo.getDataDevolucao());
 
             statement.setInt(5, emprestimo.getIdEmprestimo());
@@ -122,7 +122,7 @@ public class emprestimoController {
                 emprestimo.setIdEmprestimo(resultado.getInt("idEmprestimo"));
                 emprestimo.setIdLivro(resultado.getInt("idLivro"));
                 emprestimo.setIdCliente(resultado.getInt("idCliente"));
-                emprestimo.setData(resultado.getDate("data"));
+                emprestimo.setDataEmprestimo(resultado.getDate("data"));
                 emprestimo.setDataDevolucao(resultado.getDate("dataDevolucao"));
                 
 

@@ -7,20 +7,30 @@ public class emprestimo {
     private int idEmprestimo;
     private int idCliente;
     private int idLivro;
-    private Date data;
+    private Date dataEmprestimo;
     private Date dataDevolucao;
+
+
+
+    public emprestimo(int idEmprestimo, int idCliente, int idLivro, Date dataEmprestimo, Date dataDevolucao) {
+        this.idEmprestimo = idEmprestimo;
+        this.idCliente = idCliente;
+        this.idLivro = idLivro;
+        this.dataEmprestimo = dataEmprestimo;
+        this.dataDevolucao = dataDevolucao;
+    }
+
+    public emprestimo() {
+    }
     
-    public emprestimo(){
 
-}
+    public Date getDataEmprestimo() {
+        return dataEmprestimo;
+    }
 
-public emprestimo(int idEmprestimo, int idCliente, int idLivro, Date data, Date dataDevolucao) {
-    this.idEmprestimo = idEmprestimo;
-    this.idCliente = idCliente;
-    this.idLivro = idLivro;
-    this.data = data;
-    this.dataDevolucao = dataDevolucao;
-}
+    public void setDataEmprestimo(Date dataEmprestimo) {
+        this.dataEmprestimo = dataEmprestimo;
+    }
 
     public int getIdEmprestimo() {
         return idEmprestimo;
@@ -46,14 +56,6 @@ public emprestimo(int idEmprestimo, int idCliente, int idLivro, Date data, Date 
         this.idLivro = idLivro;
     }
 
-    public Date getData() {
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
-    }
-
     public Date getDataDevolucao() {
         return dataDevolucao;
     }
@@ -62,5 +64,11 @@ public emprestimo(int idEmprestimo, int idCliente, int idLivro, Date data, Date 
         this.dataDevolucao = dataDevolucao;
     }
 
+    @Override
+    public String toString() {
+        return "emprestimo{" + "idEmprestimo=" + idEmprestimo + ", idCliente=" + idCliente + ", idLivro=" + idLivro + ", dataEmprestimo=" + dataEmprestimo + ", dataDevolucao=" + dataDevolucao + '}';
+    }
+
+    
 }
 
