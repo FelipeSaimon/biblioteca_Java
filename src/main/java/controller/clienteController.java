@@ -18,8 +18,8 @@ public class clienteController {
 
     //Cria um projeto
     public void save(cliente cliente){
-        String sql = "INSERT INTO cliente (nomeCliente , email, telefone)"
-                + "VALUES (?,?,?)";
+        String sql = "INSERT INTO cliente (nomeCliente , email, telefone, endereco)"
+                + "VALUES (?,?,?,?)";
         
         Connection connect = null;
         PreparedStatement statement = null;
