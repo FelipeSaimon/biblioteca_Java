@@ -4,6 +4,7 @@
  */
 package view;
 
+import controller.clienteController;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -12,11 +13,13 @@ import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import model.cliente;
 
 /**
  *
@@ -24,15 +27,14 @@ import javax.swing.WindowConstants;
  */
 public class cadastroCliente extends javax.swing.JDialog {
 
-    private static final String UNCHECKED = "unchecked";
-	private static final long serialVersionUID = 1L;
-
+    clienteController clienteControl;
 	/**
      * Creates new form cadastroCliente
      */
     public cadastroCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        clienteControl = new clienteController();
     }
 
     /**
@@ -46,7 +48,7 @@ public class cadastroCliente extends javax.swing.JDialog {
 
         JPanel jPanel1 = new JPanel();
         JLabel labelTitle = new JLabel();
-        JLabel jLabel1 = new JLabel();
+        JLabel buttonSaveClient = new JLabel();
         JPanel jPanel2 = new JPanel();
         JLabel jLabel2 = new JLabel();
         nome = new JTextField();
@@ -67,10 +69,10 @@ public class cadastroCliente extends javax.swing.JDialog {
         labelTitle.setForeground(new Color(255, 255, 255));
         labelTitle.setText("Cadastro de clientes");
 
-        jLabel1.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
-        jLabel1.addMouseListener(new MouseAdapter() {
+        buttonSaveClient.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
+        buttonSaveClient.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                buttonSaveClientMouseClicked(evt);
             }
         });
 
@@ -81,14 +83,14 @@ public class cadastroCliente extends javax.swing.JDialog {
                 .addGap(16, 16, 16)
                 .addComponent(labelTitle, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addComponent(buttonSaveClient)
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                    .addComponent(buttonSaveClient, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
                     .addComponent(labelTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -174,10 +176,26 @@ public class cadastroCliente extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void buttonSaveClientMouseClicked(MouseEvent evt) {//GEN-FIRST:event_buttonSaveClientMouseClicked
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_jLabel1MouseClicked
+        try {
+            cliente cliente = new cliente();
+
+            cliente.setNomeCliente(nome.getText());
+            cliente.setCpf(cpf.getText());
+            cliente.setTelefone(telefone.getText());
+            cliente.setEmail(Email.getText());
+            cliente.setEndereco(endereco.getText());
+
+            clienteControl.save(cliente);
+            JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso");
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+
+    }//GEN-LAST:event_buttonSaveClientMouseClicked
 
     /**
      * @param args the command line arguments
