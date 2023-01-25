@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -44,6 +45,9 @@ public class telaPrincipal extends javax.swing.JFrame {
 
         JPanel fundoLimpo = new JPanel();
         ButtonGroup buttonGroup1 = new ButtonGroup();
+        JPanel PanelClientes = new JPanel();
+        JScrollPane jScrollPane1 = new JScrollPane();
+        jTable1 = new JTable();
         JPanel jPanel1 = new JPanel();
         JLabel systemTitle = new JLabel();
         JLabel jLabel2 = new JLabel();
@@ -51,9 +55,9 @@ public class telaPrincipal extends javax.swing.JFrame {
         registerClient = new JLabel();
         registerLivro = new JLabel();
         JLabel jLabel1 = new JLabel();
-        JPanel jPanel3 = new JPanel();
-        JScrollPane jScrollPane1 = new JScrollPane();
-        jTable1 = new JTable();
+        PanelPrincipal = new JPanel();
+        JLabel jLabel3 = new JLabel();
+        JLabel jLabel4 = new JLabel();
 
         fundoLimpo.setBackground(new Color(255, 255, 255));
         fundoLimpo.setBorder(BorderFactory.createEtchedBorder());
@@ -65,6 +69,46 @@ public class telaPrincipal extends javax.swing.JFrame {
         );
         fundoLimpoLayout.setVerticalGroup(fundoLimpoLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        PanelClientes.setBackground(new Color(255, 255, 255));
+        PanelClientes.setBorder(BorderFactory.createEtchedBorder());
+
+        jTable1.setModel(new DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Nome do cliente", "Email", "Telefone", "Editar", "Excluir"
+            }
+        ) {
+            Class[] types = new Class [] {
+                String.class, String.class, String.class, Boolean.class, Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        GroupLayout PanelClientesLayout = new GroupLayout(PanelClientes);
+        PanelClientes.setLayout(PanelClientesLayout);
+        PanelClientesLayout.setHorizontalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+        );
+        PanelClientesLayout.setVerticalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -87,7 +131,7 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(systemTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(254, Short.MAX_VALUE))
+                .addContainerGap(460, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -139,34 +183,39 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addComponent(registerClient)
                 .addGap(22, 22, 22)
                 .addComponent(registerLivro)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(22, 22, 22))
         );
 
-        jPanel3.setBackground(new Color(255, 255, 255));
-        jPanel3.setBorder(BorderFactory.createEtchedBorder());
+        PanelPrincipal.setBackground(new Color(255, 255, 255));
+        PanelPrincipal.setBorder(BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        jLabel3.setIcon(new ImageIcon(getClass().getResource("/fundo vazio.png"))); // NOI18N
+        jLabel3.setToolTipText("");
 
-        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+        jLabel4.setFont(new Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel4.setForeground(new Color(0, 102, 102));
+        jLabel4.setHorizontalAlignment(SwingConstants.CENTER);
+        jLabel4.setText("BEM VINDO");
+
+        GroupLayout PanelPrincipalLayout = new GroupLayout(PanelPrincipal);
+        PanelPrincipal.setLayout(PanelPrincipalLayout);
+        PanelPrincipalLayout.setHorizontalGroup(PanelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(PanelPrincipalLayout.createSequentialGroup()
+                .addGap(260, 260, 260)
+                .addGroup(PanelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        PanelPrincipalLayout.setVerticalGroup(PanelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(PanelPrincipalLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jLabel3)
+                .addGap(29, 29, 29)
+                .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -177,7 +226,7 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PanelPrincipal, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -185,8 +234,8 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelPrincipal, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -247,6 +296,7 @@ public class telaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    JPanel PanelPrincipal;
     JTable jTable1;
     JLabel registerClient;
     JLabel registerLivro;
