@@ -7,6 +7,8 @@ package view;
 import controller.clienteController;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -103,14 +105,16 @@ public final class telaPrincipal extends javax.swing.JFrame {
         GroupLayout PanelClientesLayout = new GroupLayout(PanelClientes);
         PanelClientes.setLayout(PanelClientesLayout);
         PanelClientesLayout.setHorizontalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(GroupLayout.Alignment.TRAILING, PanelClientesLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 644, GroupLayout.PREFERRED_SIZE))
+            .addGroup(PanelClientesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                .addContainerGap())
         );
         PanelClientesLayout.setVerticalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(GroupLayout.Alignment.TRAILING, PanelClientesLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 413, GroupLayout.PREFERRED_SIZE))
+            .addGroup(PanelClientesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -133,7 +137,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(systemTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(395, Short.MAX_VALUE))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -169,6 +173,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
         });
 
         visualizaClientes.setIcon(new ImageIcon(getClass().getResource("/visualizar-min.png"))); // NOI18N
+        visualizaClientes.setCursor(new Cursor(Cursor.HAND_CURSOR));
         visualizaClientes.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 visualizaClientesMouseClicked(evt);
@@ -199,37 +204,49 @@ public final class telaPrincipal extends javax.swing.JFrame {
                         .addComponent(visualizaClientes)))
                 .addGap(20, 20, 20)
                 .addComponent(registerLivro)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(20, 20, 20))
         );
 
         PanelPrincipal.setBackground(new Color(255, 255, 255));
         PanelPrincipal.setBorder(BorderFactory.createEtchedBorder());
+        PanelPrincipal.setLayout(new BorderLayout());
 
         PanelVazio.setBackground(new Color(255, 255, 255));
-        PanelVazio.setLayout(new BorderLayout());
+        PanelVazio.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        PanelVazio.setPreferredSize(new Dimension(645, 350));
 
         jLabel3.setBackground(new Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel3.setIcon(new ImageIcon(getClass().getResource("/fundo vazio.png"))); // NOI18N
         jLabel3.setToolTipText("");
-        PanelVazio.add(jLabel3, BorderLayout.CENTER);
 
         jLabel4.setFont(new Font("Segoe UI", 1, 36)); // NOI18N
         jLabel4.setForeground(new Color(0, 102, 102));
         jLabel4.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel4.setText("BEM VINDO");
-        PanelVazio.add(jLabel4, BorderLayout.PAGE_END);
 
-        GroupLayout PanelPrincipalLayout = new GroupLayout(PanelPrincipal);
-        PanelPrincipal.setLayout(PanelPrincipalLayout);
-        PanelPrincipalLayout.setHorizontalGroup(PanelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(PanelVazio, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        GroupLayout PanelVazioLayout = new GroupLayout(PanelVazio);
+        PanelVazio.setLayout(PanelVazioLayout);
+        PanelVazioLayout.setHorizontalGroup(PanelVazioLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(PanelVazioLayout.createSequentialGroup()
+                .addGap(220, 220, 220)
+                .addGroup(PanelVazioLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addGap(220, 220, 220))
         );
-        PanelPrincipalLayout.setVerticalGroup(PanelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(PanelVazio, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        PanelVazioLayout.setVerticalGroup(PanelVazioLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(PanelVazioLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addContainerGap())
         );
+
+        PanelPrincipal.add(PanelVazio, BorderLayout.CENTER);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -276,13 +293,11 @@ public final class telaPrincipal extends javax.swing.JFrame {
     private void visualizaClientesMouseClicked(MouseEvent evt) {//GEN-FIRST:event_visualizaClientesMouseClicked
         // TODO add your handling code here:
 //        List<cliente> cliente = clienteControl.getAll();
-//
-//        
 //        for (int i = 0; i < cliente.size(); i++) {
 //            clientesModel = (TableModelCliente) (List<cliente>) cliente.get(i);
 //        }
-//        showtableClientes(!cliente.isEmpty());
         loadclientes();
+
     }//GEN-LAST:event_visualizaClientesMouseClicked
 
     /**
@@ -296,7 +311,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("java swing".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -339,7 +354,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
         tableClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         
         //Setando a cor verde do projeto
-        tableClientes.getTableHeader().setBackground(new Color(0,153,102));
+        tableClientes.getTableHeader().setBackground(new Color(0,102,102));
         tableClientes.getTableHeader().setForeground(new Color(255,255,255));
         
         
