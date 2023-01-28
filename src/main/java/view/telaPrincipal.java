@@ -4,10 +4,13 @@
  */
 package view;
 
+import controller.clienteController;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -20,18 +23,25 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+import model.cliente;
+import util.ButtonColumnCellRender;
+import util.TableModelCliente;
 
 /**
  *
  * @author Saimon
  */
-public class telaPrincipal extends javax.swing.JFrame {
-
+public final class telaPrincipal extends javax.swing.JFrame {
+    TableModelCliente clientesModel;
+    clienteController clienteControl;
     /**
      * Creates new form telaPrincipal
      */
     public telaPrincipal() {
         initComponents();
+        initDataController();
+        initComponentsModel();
+        decorateTablecliente();
     }
 
     /**
@@ -43,11 +53,9 @@ public class telaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        JPanel fundoLimpo = new JPanel();
-        ButtonGroup buttonGroup1 = new ButtonGroup();
-        JPanel PanelClientes = new JPanel();
+        PanelClientes = new JPanel();
         JScrollPane jScrollPane1 = new JScrollPane();
-        jTable1 = new JTable();
+        tableClientes = new JTable();
         JPanel jPanel1 = new JPanel();
         JLabel systemTitle = new JLabel();
         JLabel jLabel2 = new JLabel();
@@ -55,26 +63,16 @@ public class telaPrincipal extends javax.swing.JFrame {
         registerClient = new JLabel();
         registerLivro = new JLabel();
         JLabel jLabel1 = new JLabel();
+        visualizaClientes = new JLabel();
         PanelPrincipal = new JPanel();
-        JLabel jLabel3 = new JLabel();
+        PanelVazio = new JPanel();
+        jLabel3 = new JLabel();
         JLabel jLabel4 = new JLabel();
-
-        fundoLimpo.setBackground(new Color(255, 255, 255));
-        fundoLimpo.setBorder(BorderFactory.createEtchedBorder());
-
-        GroupLayout fundoLimpoLayout = new GroupLayout(fundoLimpo);
-        fundoLimpo.setLayout(fundoLimpoLayout);
-        fundoLimpoLayout.setHorizontalGroup(fundoLimpoLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        fundoLimpoLayout.setVerticalGroup(fundoLimpoLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         PanelClientes.setBackground(new Color(255, 255, 255));
         PanelClientes.setBorder(BorderFactory.createEtchedBorder());
 
-        jTable1.setModel(new DefaultTableModel(
+        tableClientes.setModel(new DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -100,15 +98,19 @@ public class telaPrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableClientes);
 
         GroupLayout PanelClientesLayout = new GroupLayout(PanelClientes);
         PanelClientes.setLayout(PanelClientesLayout);
         PanelClientesLayout.setHorizontalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+            .addGroup(GroupLayout.Alignment.TRAILING, PanelClientesLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 644, GroupLayout.PREFERRED_SIZE))
         );
         PanelClientesLayout.setVerticalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(GroupLayout.Alignment.TRAILING, PanelClientesLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 413, GroupLayout.PREFERRED_SIZE))
         );
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -131,7 +133,7 @@ public class telaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(systemTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(460, Short.MAX_VALUE))
+                .addContainerGap(395, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -166,6 +168,13 @@ public class telaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        visualizaClientes.setIcon(new ImageIcon(getClass().getResource("/visualizar-min.png"))); // NOI18N
+        visualizaClientes.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                visualizaClientesMouseClicked(evt);
+            }
+        });
+
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -175,47 +184,51 @@ public class telaPrincipal extends javax.swing.JFrame {
                     .addComponent(registerClient)
                     .addComponent(registerLivro)
                     .addComponent(jLabel1))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(visualizaClientes)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(registerClient)
-                .addGap(22, 22, 22)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(registerClient))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(visualizaClientes)))
+                .addGap(20, 20, 20)
                 .addComponent(registerLivro)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(22, 22, 22))
+                .addGap(20, 20, 20))
         );
 
         PanelPrincipal.setBackground(new Color(255, 255, 255));
         PanelPrincipal.setBorder(BorderFactory.createEtchedBorder());
 
+        PanelVazio.setBackground(new Color(255, 255, 255));
+        PanelVazio.setLayout(new BorderLayout());
+
+        jLabel3.setBackground(new Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel3.setIcon(new ImageIcon(getClass().getResource("/fundo vazio.png"))); // NOI18N
         jLabel3.setToolTipText("");
+        PanelVazio.add(jLabel3, BorderLayout.CENTER);
 
         jLabel4.setFont(new Font("Segoe UI", 1, 36)); // NOI18N
         jLabel4.setForeground(new Color(0, 102, 102));
         jLabel4.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel4.setText("BEM VINDO");
+        PanelVazio.add(jLabel4, BorderLayout.PAGE_END);
 
         GroupLayout PanelPrincipalLayout = new GroupLayout(PanelPrincipal);
         PanelPrincipal.setLayout(PanelPrincipalLayout);
         PanelPrincipalLayout.setHorizontalGroup(PanelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(PanelPrincipalLayout.createSequentialGroup()
-                .addGap(260, 260, 260)
-                .addGroup(PanelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(PanelVazio, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         PanelPrincipalLayout.setVerticalGroup(PanelPrincipalLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(PanelPrincipalLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel3)
-                .addGap(29, 29, 29)
-                .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(PanelVazio, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -260,6 +273,18 @@ public class telaPrincipal extends javax.swing.JFrame {
         emprestimo.setVisible(true);
     }//GEN-LAST:event_jLabel1MouseClicked
 
+    private void visualizaClientesMouseClicked(MouseEvent evt) {//GEN-FIRST:event_visualizaClientesMouseClicked
+        // TODO add your handling code here:
+//        List<cliente> cliente = clienteControl.getAll();
+//
+//        
+//        for (int i = 0; i < cliente.size(); i++) {
+//            clientesModel = (TableModelCliente) (List<cliente>) cliente.get(i);
+//        }
+//        showtableClientes(!cliente.isEmpty());
+        loadclientes();
+    }//GEN-LAST:event_visualizaClientesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -296,9 +321,106 @@ public class telaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    JPanel PanelClientes;
     JPanel PanelPrincipal;
-    JTable jTable1;
+    JPanel PanelVazio;
+    JLabel jLabel3;
     JLabel registerClient;
     JLabel registerLivro;
+    JTable tableClientes;
+    JLabel visualizaClientes;
     // End of variables declaration//GEN-END:variables
+
+        public void decorateTablecliente(){
+        //Ao setar a fonte passa-se pelo menos 3 parametros ao metodo font()
+        //Nome da fonte
+        //Espessura (Normal, negrito, etc)
+        //Tamanho da fonte
+        tableClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        
+        //Setando a cor verde do projeto
+        tableClientes.getTableHeader().setBackground(new Color(0,153,102));
+        tableClientes.getTableHeader().setForeground(new Color(255,255,255));
+        
+        
+        //Esse metodo permite a ordena��o da tabela pela coluna selecionada
+        tableClientes.getAutoCreateRowSorter();
+        
+        //Dentro da tableClientes, pega o model dela, pegando a sua coluna 2 (nesse caso)
+        //
+        
+        tableClientes.getColumnModel().getColumn(3).setCellRenderer(new ButtonColumnCellRender("editar"));
+        tableClientes.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRender("excluir"));
+        
+    }
+    
+    public void initDataController(){
+        clienteControl = new clienteController();
+//        projectController = new ProjectController();
+    }
+    
+    //Gerencia a parte visual do jList
+    public void initComponentsModel(){
+//        projectsModel = new DefaultListModel();
+//        loadProjects();
+
+        clientesModel = new TableModelCliente();
+        tableClientes.setModel(clientesModel);
+        
+        //Verificaçao para o que será apresentado na tela criada quando for criada
+        if(!clientesModel.isEmpty()){
+            loadclientes();
+        }
+    }
+    
+    public void loadclientes(){
+        List<cliente> clientes = clienteControl.getAll();
+        clientesModel.setclientes(clientes);
+        //verifica caso a clientes esteja vazia
+        showTableClientes(!clientes.isEmpty());
+    }
+    
+    //CONFIGURAÇÃO DE EXIBIÇÃO DA TABELA DE CLIENTE OU A VAZIA
+    
+    private void showTableClientes(boolean hasTasks){
+        if(hasTasks){
+            if(PanelVazio.isVisible()){
+                PanelVazio.setVisible(false);
+                PanelPrincipal.remove(PanelVazio);
+            }
+            PanelPrincipal.add(PanelClientes);
+            PanelClientes.setVisible(true);
+            PanelClientes.setSize(PanelPrincipal.getWidth(), PanelPrincipal.getHeight());
+        }else{
+            if(PanelClientes.isVisible()){
+                PanelClientes.setVisible(false);
+                PanelPrincipal.remove(PanelClientes);
+            }
+            PanelPrincipal.add(PanelVazio);
+            PanelVazio.setVisible(true);
+            PanelVazio.setSize(PanelPrincipal.getWidth(), PanelPrincipal.getHeight());
+        }
+    }
+    
+//    private void showtableClientes(boolean hasclientes){
+//        if(hasclientes){
+//            if(PanelPrincipal.isVisible()){
+//                PanelPrincipal.setVisible(false);
+//                PanelClientes.remove(PanelPrincipal);
+//            }
+//            PanelClientes.add(PanelClientes);
+//            PanelClientes.setVisible(true);
+//            PanelClientes.setSize(PanelClientes.getWidth(), PanelClientes.getHeight());
+//        }else{
+//            if(PanelClientes.isVisible()){
+//                PanelClientes.setVisible(false);
+//                PanelClientes.remove(PanelClientes);
+//            }
+//            PanelClientes.add(PanelPrincipal);
+//            PanelPrincipal.setVisible(true);
+//            PanelPrincipal.setSize(PanelClientes.getWidth(), PanelClientes.getHeight());
+//        }
+//    }
+    
+
 }
