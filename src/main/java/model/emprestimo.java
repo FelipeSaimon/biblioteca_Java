@@ -1,7 +1,7 @@
 
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class emprestimo {
     private int idEmprestimo;
@@ -21,6 +21,8 @@ public class emprestimo {
     }
 
     public emprestimo() {
+        this.dataEmprestimo = new Date();
+        this.dataDevolucao = new Date();
     }
     
 

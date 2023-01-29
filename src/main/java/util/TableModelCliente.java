@@ -82,9 +82,9 @@ public class TableModelCliente extends AbstractTableModel{
         this.clientes = clientes;
     }
 
-    public boolean isEmpty() {
-        return false;
-    }
+//    public boolean isEmpty() {
+//        return true;
+//    }
 
 
 }

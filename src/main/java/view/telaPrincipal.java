@@ -34,8 +34,10 @@ import util.TableModelCliente;
  * @author Saimon
  */
 public final class telaPrincipal extends javax.swing.JFrame {
+
     TableModelCliente clientesModel;
     clienteController clienteControl;
+
     /**
      * Creates new form telaPrincipal
      */
@@ -66,6 +68,8 @@ public final class telaPrincipal extends javax.swing.JFrame {
         registerLivro = new JLabel();
         JLabel jLabel1 = new JLabel();
         visualizaClientes = new JLabel();
+        JLabel jLabel5 = new JLabel();
+        JLabel jLabel6 = new JLabel();
         PanelPrincipal = new JPanel();
         PanelVazio = new JPanel();
         jLabel3 = new JLabel();
@@ -76,20 +80,20 @@ public final class telaPrincipal extends javax.swing.JFrame {
 
         tableClientes.setModel(new DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Nome do cliente", "Email", "Telefone", "Editar", "Excluir"
+                "Nome do cliente", "Email", "Telefone"
             }
         ) {
             Class[] types = new Class [] {
-                String.class, String.class, String.class, Boolean.class, Boolean.class
+                String.class, String.class, String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -98,6 +102,11 @@ public final class telaPrincipal extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tableClientes.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                tableClientesMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tableClientes);
@@ -159,6 +168,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
         });
 
         registerLivro.setIcon(new ImageIcon(getClass().getResource("/add-book1.png"))); // NOI18N
+        registerLivro.setCursor(new Cursor(Cursor.HAND_CURSOR));
         registerLivro.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 registerLivroMouseClicked(evt);
@@ -166,19 +176,31 @@ public final class telaPrincipal extends javax.swing.JFrame {
         });
 
         jLabel1.setIcon(new ImageIcon(getClass().getResource("/borrowBook.png"))); // NOI18N
+        jLabel1.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jLabel1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 jLabel1MouseClicked(evt);
             }
         });
 
+        visualizaClientes.setBackground(new Color(0, 102, 102));
         visualizaClientes.setIcon(new ImageIcon(getClass().getResource("/visualizar-min.png"))); // NOI18N
+        visualizaClientes.setVerticalAlignment(SwingConstants.BOTTOM);
         visualizaClientes.setCursor(new Cursor(Cursor.HAND_CURSOR));
         visualizaClientes.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 visualizaClientesMouseClicked(evt);
             }
         });
+
+        jLabel5.setIcon(new ImageIcon(getClass().getResource("/visualizar-min.png"))); // NOI18N
+        jLabel5.setVerticalAlignment(SwingConstants.BOTTOM);
+        jLabel5.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        jLabel6.setBackground(new Color(255, 255, 255));
+        jLabel6.setIcon(new ImageIcon(getClass().getResource("/visualizar-min.png"))); // NOI18N
+        jLabel6.setVerticalAlignment(SwingConstants.BOTTOM);
+        jLabel6.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -190,22 +212,26 @@ public final class telaPrincipal extends javax.swing.JFrame {
                     .addComponent(registerLivro)
                     .addComponent(jLabel1))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(visualizaClientes)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel5, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(visualizaClientes, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(registerClient))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(visualizaClientes)))
                 .addGap(20, 20, 20)
-                .addComponent(registerLivro)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(registerClient)
+                    .addComponent(visualizaClientes))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(registerLivro)
+                    .addComponent(jLabel5))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6, GroupLayout.Alignment.TRAILING))
                 .addGap(20, 20, 20))
         );
 
@@ -256,7 +282,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelPrincipal, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PanelPrincipal, GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -292,13 +318,31 @@ public final class telaPrincipal extends javax.swing.JFrame {
 
     private void visualizaClientesMouseClicked(MouseEvent evt) {//GEN-FIRST:event_visualizaClientesMouseClicked
         // TODO add your handling code here:
-//        List<cliente> cliente = clienteControl.getAll();
-//        for (int i = 0; i < cliente.size(); i++) {
-//            clientesModel = (TableModelCliente) (List<cliente>) cliente.get(i);
-//        }
+
         loadclientes();
 
+        System.out.println("Teste de clique");
+
+
     }//GEN-LAST:event_visualizaClientesMouseClicked
+
+    private void tableClientesMouseClicked(MouseEvent evt) {//GEN-FIRST:event_tableClientesMouseClicked
+        // TODO add your handling code here:
+        int rowIndex = tableClientes.rowAtPoint(evt.getPoint());
+        int columnIndex = tableClientes.columnAtPoint(evt.getPoint());
+        cliente cliente = clientesModel.getclientes().get(rowIndex);
+        switch (columnIndex) {
+            case 3:
+//                cadastroCliente updateCliente = new cadastroCliente(this, rootPaneCheckingEnabled);
+//                updateCliente.setVisible(true);
+//                clienteControl.update(cliente);
+                break;
+            case 4:
+                clienteControl.remove(cliente.getIdCliente());
+                clientesModel.getclientes().remove(cliente);
+                break;
+        }
+    }//GEN-LAST:event_tableClientesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -346,68 +390,66 @@ public final class telaPrincipal extends javax.swing.JFrame {
     JLabel visualizaClientes;
     // End of variables declaration//GEN-END:variables
 
-        public void decorateTablecliente(){
+    //CONFIGURANDO OS CLIENTES
+    public void decorateTablecliente() {
         //Ao setar a fonte passa-se pelo menos 3 parametros ao metodo font()
         //Nome da fonte
         //Espessura (Normal, negrito, etc)
         //Tamanho da fonte
         tableClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-        
+
         //Setando a cor verde do projeto
-        tableClientes.getTableHeader().setBackground(new Color(0,102,102));
-        tableClientes.getTableHeader().setForeground(new Color(255,255,255));
-        
-        
+        tableClientes.getTableHeader().setBackground(new Color(0, 102, 102));
+        tableClientes.getTableHeader().setForeground(new Color(255, 255, 255));
+
         //Esse metodo permite a ordena��o da tabela pela coluna selecionada
         tableClientes.getAutoCreateRowSorter();
-        
+
         //Dentro da tableClientes, pega o model dela, pegando a sua coluna 2 (nesse caso)
         //
-        
         tableClientes.getColumnModel().getColumn(3).setCellRenderer(new ButtonColumnCellRender("editar"));
         tableClientes.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRender("excluir"));
-        
+
     }
-    
-    public void initDataController(){
+
+    public void initDataController() {
         clienteControl = new clienteController();
 //        projectController = new ProjectController();
     }
-    
+
     //Gerencia a parte visual do jList
-    public void initComponentsModel(){
+    public void initComponentsModel() {
 //        projectsModel = new DefaultListModel();
 //        loadProjects();
 
         clientesModel = new TableModelCliente();
         tableClientes.setModel(clientesModel);
-        
+
         //Verificaçao para o que será apresentado na tela criada quando for criada
-        if(!clientesModel.isEmpty()){
-            loadclientes();
-        }
+//        if (!clientesModel.isEmpty()) {
+//            loadclientes();
+//        }
     }
-    
-    public void loadclientes(){
+
+    public void loadclientes() {
         List<cliente> clientes = clienteControl.getAll();
         clientesModel.setclientes(clientes);
         //verifica caso a clientes esteja vazia
         showTableClientes(!clientes.isEmpty());
     }
-    
+
     //CONFIGURAÇÃO DE EXIBIÇÃO DA TABELA DE CLIENTE OU A VAZIA
-    
-    private void showTableClientes(boolean hasTasks){
-        if(hasTasks){
-            if(PanelVazio.isVisible()){
+    private void showTableClientes(boolean hasclientes) {
+        if (hasclientes) {
+            if (PanelVazio.isVisible()) {
                 PanelVazio.setVisible(false);
                 PanelPrincipal.remove(PanelVazio);
             }
             PanelPrincipal.add(PanelClientes);
             PanelClientes.setVisible(true);
             PanelClientes.setSize(PanelPrincipal.getWidth(), PanelPrincipal.getHeight());
-        }else{
-            if(PanelClientes.isVisible()){
+        } else {
+            if (PanelClientes.isVisible()) {
                 PanelClientes.setVisible(false);
                 PanelPrincipal.remove(PanelClientes);
             }
@@ -416,26 +458,9 @@ public final class telaPrincipal extends javax.swing.JFrame {
             PanelVazio.setSize(PanelPrincipal.getWidth(), PanelPrincipal.getHeight());
         }
     }
-    
-//    private void showtableClientes(boolean hasclientes){
-//        if(hasclientes){
-//            if(PanelPrincipal.isVisible()){
-//                PanelPrincipal.setVisible(false);
-//                PanelClientes.remove(PanelPrincipal);
-//            }
-//            PanelClientes.add(PanelClientes);
-//            PanelClientes.setVisible(true);
-//            PanelClientes.setSize(PanelClientes.getWidth(), PanelClientes.getHeight());
-//        }else{
-//            if(PanelClientes.isVisible()){
-//                PanelClientes.setVisible(false);
-//                PanelClientes.remove(PanelClientes);
-//            }
-//            PanelClientes.add(PanelPrincipal);
-//            PanelPrincipal.setVisible(true);
-//            PanelPrincipal.setSize(PanelClientes.getWidth(), PanelClientes.getHeight());
-//        }
-//    }
-    
 
+    //CONFIGURANDO OS BOTÕES DE EDITAR E DELETAR NA TABELA
+
+
+    //CONFIGURANDO OS LIVROS
 }

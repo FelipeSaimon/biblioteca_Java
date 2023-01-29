@@ -28,9 +28,7 @@ import model.cliente;
 public class cadastroCliente extends javax.swing.JDialog {
 
     clienteController clienteControl;
-	/**
-     * Creates new form cadastroCliente
-     */
+
     public cadastroCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -187,8 +185,8 @@ public class cadastroCliente extends javax.swing.JDialog {
             cliente.setTelefone(telefone.getText());
             cliente.setEmail(Email.getText());
             cliente.setEndereco(endereco.getText());
-
             clienteControl.save(cliente);
+            
             JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso");
             this.dispose();
         } catch (Exception e) {

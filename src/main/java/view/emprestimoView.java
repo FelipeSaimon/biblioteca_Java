@@ -28,7 +28,9 @@ import model.emprestimo;
  * @author Saimon
  */
 public class emprestimoView extends javax.swing.JDialog {
+
     emprestimoController emprestControl;
+
     /**
      * Creates new form emprestimo
      */
@@ -175,35 +177,26 @@ public class emprestimoView extends javax.swing.JDialog {
 
     private void saveEmprestimoMouseClicked(MouseEvent evt) {//GEN-FIRST:event_saveEmprestimoMouseClicked
         // TODO add your handling code here:
-        
-        try{
+
+        try {
             emprestimo emprest = new emprestimo();
-            
+
             emprest.setIdLivro(parseInt(bookCode.getText()));
             emprest.setIdCliente(parseInt(ClienteEmprestimo.getText()));
-            
-            //FORMATANDO AS DADOS DE EMPRESTIMO E DEVOLUÇÃO
 
+            //FORMATANDO AS DADOS DE EMPRESTIMO E DEVOLUÇÃO
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            //EMPRESTIMO
-            //Setar a data como nula
-            Date dtEmprestimo = null;
-            //Pegar o valor digitado pelo usuário
-            dtEmprestimo = dateFormat.parse(dtEmprest.getText());
-            emprest.setDataEmprestimo((java.sql.Date) dtEmprestimo);
-            
-            //EMPRESTIMO
-            //Setar a data como nula
+
             Date dtDevolucao = null;
             //Pegar o valor digitado pelo usuário
             dtDevolucao = dateFormat.parse(dtDevolv.getText());
-            emprest.setDataDevolucao((java.sql.Date) dtDevolucao);
-            
+            emprest.setDataDevolucao(dtDevolucao);
             emprestControl.save(emprest);
+            
             JOptionPane.showMessageDialog(rootPane, "Livro emprestado com sucesso");
             dispose();
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(rootPane, e);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
     }//GEN-LAST:event_saveEmprestimoMouseClicked
 

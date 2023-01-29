@@ -18,8 +18,8 @@ public class clienteController {
 
     //Cria um projeto
     public void save(cliente cliente){
-        String sql = "INSERT INTO cliente (nomeCliente , email, telefone, endereco)"
-                + "VALUES (?,?,?,?)";
+        String sql = "INSERT INTO cliente (nomeCliente, cpf , email, telefone, endereco)"
+                + "VALUES (?,?,?,?,?)";
         
         Connection connect = null;
         PreparedStatement statement = null;
@@ -29,8 +29,10 @@ public class clienteController {
             statement = connect.prepareStatement(sql);
 
             statement.setString(1, cliente.getNomeCliente());
-            statement.setString(2, cliente.getEmail());
-            statement.setString(3, cliente.getTelefone());
+            statement.setString(2, cliente.getCpf());
+            statement.setString(3, cliente.getEmail());
+            statement.setString(4, cliente.getTelefone());
+            statement.setString(5, cliente.getEndereco());
             statement.execute();
             
         } catch (SQLException e) {
@@ -50,30 +52,25 @@ public class clienteController {
         }
     }
     
+
     //Atualiza dados de um projeto
-    public void update(cliente cliente){
+    public void update(cliente cliente) {
         String sql = "UPDATE clientes SET nomeCliente = ? , email = ?, telefone = ? WHERE idCliente = ?";
-        
         Connection connect = null;
         PreparedStatement statement = null;
-        
         try {
             connect = ConnectionFactory.getConnection();
-            
             statement = connect.prepareStatement(sql);
             statement.setString(1, cliente.getNomeCliente());
             statement.setString(2, cliente.getEmail());
             statement.setString(3, cliente.getTelefone());
-
-            statement.setInt(5, cliente.getIdCliente());
+            statement.setInt(4, cliente.getIdCliente());
             statement.execute();
-            
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar um projeto", e);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(connect, statement);
-        }        
-        
+        }
     }
     
     public void remove(int id){

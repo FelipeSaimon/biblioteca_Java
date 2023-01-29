@@ -14,7 +14,7 @@ public class emprestimoController {
 
     //Cria um empréstimo
     public void save(emprestimo emprestimo){
-        String sql = "INSERT INTO emprestimo (idCliente, idLivro, data, dataDevolucao)"
+        String sql = "INSERT INTO emprestimo (idCliente, idLivro, dataEmprestimo, dataDevolucao)"
                 + "VALUES (?,?,?,?)";
         
         Connection connect = null;
@@ -26,8 +26,8 @@ public class emprestimoController {
             
             statement.setInt(1, emprestimo.getIdCliente());
             statement.setInt(2, emprestimo.getIdLivro());
-            statement.setDate(3, emprestimo.getDataEmprestimo());
-            statement.setDate(4, emprestimo.getDataDevolucao());
+            statement.setDate(3, new java.sql.Date (emprestimo.getDataEmprestimo().getTime()));
+            statement.setDate(4, new java.sql.Date (emprestimo.getDataDevolucao().getTime()));
             statement.execute();
             
         } catch (SQLException e) {
@@ -49,7 +49,7 @@ public class emprestimoController {
     
     //Atualiza dados de um empréstimo
     public void update(emprestimo emprestimo){
-        String sql = "UPDATE emprestimo SET idCliente = ?, idLivro = ?, data = ?, dataDevolucao = ?WHERE idSecao = ?";
+        String sql = "UPDATE emprestimo SET idCliente = ?, idLivro = ?, dataEmprestimo = ?, dataDevolucao = ?WHERE idSecao = ?";
         
         Connection connect = null;
         PreparedStatement statement = null;
@@ -60,8 +60,8 @@ public class emprestimoController {
             statement = connect.prepareStatement(sql);
             statement.setInt(1, emprestimo.getIdCliente());
             statement.setInt(2, emprestimo.getIdLivro());
-            statement.setDate(3, emprestimo.getDataEmprestimo());
-            statement.setDate(4, emprestimo.getDataDevolucao());
+            statement.setDate(3, new java.sql.Date (emprestimo.getDataEmprestimo().getTime()));
+            statement.setDate(4, new java.sql.Date (emprestimo.getDataDevolucao().getTime()));
 
             statement.setInt(5, emprestimo.getIdEmprestimo());
             statement.execute();
@@ -122,7 +122,7 @@ public class emprestimoController {
                 emprestimo.setIdEmprestimo(resultado.getInt("idEmprestimo"));
                 emprestimo.setIdLivro(resultado.getInt("idLivro"));
                 emprestimo.setIdCliente(resultado.getInt("idCliente"));
-                emprestimo.setDataEmprestimo(resultado.getDate("data"));
+                emprestimo.setDataEmprestimo(resultado.getDate("dataEmprestimo"));
                 emprestimo.setDataDevolucao(resultado.getDate("dataDevolucao"));
                 
 
