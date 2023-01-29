@@ -42,10 +42,10 @@ public class Biblioteca {
 //        
 //        livroControll.save(livro);
         
-
-        emprestimo.setIdLivro(3);
-        emprestimo.setIdCliente(4);
-        control.save(emprestimo);
+//
+//        emprestimo.setIdLivro(3);
+//        emprestimo.setIdCliente(4);
+//        control.save(emprestimo);
     }
     
     

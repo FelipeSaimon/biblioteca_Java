@@ -44,9 +44,11 @@ public class cadastroCliente extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        JLabel jLabel7 = new JLabel();
         JPanel jPanel1 = new JPanel();
         JLabel labelTitle = new JLabel();
-        JLabel buttonSaveClient = new JLabel();
+        JLabel jLabel1 = new JLabel();
+        JLabel jLabel8 = new JLabel();
         JPanel jPanel2 = new JPanel();
         JLabel jLabel2 = new JLabel();
         nome = new JTextField();
@@ -59,6 +61,8 @@ public class cadastroCliente extends javax.swing.JDialog {
         JLabel jLabel6 = new JLabel();
         endereco = new JTextField();
 
+        jLabel7.setText("jLabel7");
+
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new Color(0, 102, 102));
@@ -67,30 +71,42 @@ public class cadastroCliente extends javax.swing.JDialog {
         labelTitle.setForeground(new Color(255, 255, 255));
         labelTitle.setText("Cadastro de clientes");
 
-        buttonSaveClient.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
-        buttonSaveClient.addMouseListener(new MouseAdapter() {
+        jLabel1.setIcon(new ImageIcon(getClass().getResource("/edit (2).png"))); // NOI18N
+        jLabel1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                buttonSaveClientMouseClicked(evt);
+                jLabel1MouseClicked(evt);
+            }
+        });
+
+        jLabel8.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
+        jLabel8.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                jLabel8MouseClicked(evt);
             }
         });
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(labelTitle, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(buttonSaveClient)
-                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(labelTitle)
+                .addGap(53, 53, 53)
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel8))
+                .addGap(116, 116, 116))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(buttonSaveClient, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                    .addComponent(labelTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1))
+                    .addComponent(labelTitle, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new Color(255, 255, 255));
@@ -127,7 +143,7 @@ public class cadastroCliente extends javax.swing.JDialog {
                     .addComponent(Email)
                     .addComponent(telefone, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
                     .addComponent(endereco))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -151,49 +167,36 @@ public class cadastroCliente extends javax.swing.JDialog {
                 .addComponent(jLabel6)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(endereco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonSaveClientMouseClicked(MouseEvent evt) {//GEN-FIRST:event_buttonSaveClientMouseClicked
+    private void jLabel8MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
-        
-        try {
-            cliente cliente = new cliente();
+    }//GEN-LAST:event_jLabel8MouseClicked
 
-            cliente.setNomeCliente(nome.getText());
-            cliente.setCpf(cpf.getText());
-            cliente.setTelefone(telefone.getText());
-            cliente.setEmail(Email.getText());
-            cliente.setEndereco(endereco.getText());
-            clienteControl.save(cliente);
-            
-            JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso");
-            this.dispose();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-
-    }//GEN-LAST:event_buttonSaveClientMouseClicked
+    private void jLabel1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments

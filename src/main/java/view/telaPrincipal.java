@@ -318,14 +318,13 @@ public final class telaPrincipal extends javax.swing.JFrame {
 
     private void visualizaClientesMouseClicked(MouseEvent evt) {//GEN-FIRST:event_visualizaClientesMouseClicked
         // TODO add your handling code here:
-
         loadclientes();
-
-        System.out.println("Teste de clique");
-
+//        System.out.println("Teste de clique");
 
     }//GEN-LAST:event_visualizaClientesMouseClicked
 
+    
+    //CONFIGURANDO OS BOTÕES DE EDITAR E DELETAR NA TABELA
     private void tableClientesMouseClicked(MouseEvent evt) {//GEN-FIRST:event_tableClientesMouseClicked
         // TODO add your handling code here:
         int rowIndex = tableClientes.rowAtPoint(evt.getPoint());
@@ -333,9 +332,10 @@ public final class telaPrincipal extends javax.swing.JFrame {
         cliente cliente = clientesModel.getclientes().get(rowIndex);
         switch (columnIndex) {
             case 3:
-//                cadastroCliente updateCliente = new cadastroCliente(this, rootPaneCheckingEnabled);
-//                updateCliente.setVisible(true);
-//                clienteControl.update(cliente);
+                cadastroCliente updateCliente = new cadastroCliente(this, rootPaneCheckingEnabled);;
+                updateCliente.setVisible(true);
+                clientesModel.getclientes().update(cliente);
+                clienteControl.update(cliente);
                 break;
             case 4:
                 clienteControl.remove(cliente.getIdCliente());
@@ -391,6 +391,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     //CONFIGURANDO OS CLIENTES
+    
     public void decorateTablecliente() {
         //Ao setar a fonte passa-se pelo menos 3 parametros ao metodo font()
         //Nome da fonte
@@ -459,7 +460,6 @@ public final class telaPrincipal extends javax.swing.JFrame {
         }
     }
 
-    //CONFIGURANDO OS BOTÕES DE EDITAR E DELETAR NA TABELA
 
 
     //CONFIGURANDO OS LIVROS

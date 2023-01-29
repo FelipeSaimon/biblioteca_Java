@@ -13,11 +13,11 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Saimon
  */
-public class TableModelCliente extends AbstractTableModel{
+public class TableModelCliente extends AbstractTableModel {
 
     String[] columns = {"Nome", "Email", "Telefone", "Editar", "Excluir"};
     List<cliente> clientes = new ArrayList();
-    
+
     @Override
     public int getRowCount() {
         return clientes.size();
@@ -27,34 +27,32 @@ public class TableModelCliente extends AbstractTableModel{
     public int getColumnCount() {
         return columns.length;
     }
-    
+
     @Override // <-- Significa sobreescrita
-    public String getColumnName(int columnIndex){
+    public String getColumnName(int columnIndex) {
         return columns[columnIndex]; // <--Irá sobreescrever os nomes das colunas no model
     }
-    
+
     //celula para editar um cliente
     @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex){
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
         return columnIndex == 3;
     }
 
-
-    
     @Override
-    public Class<?> getColumnClass(int ColumnIndex){
-        if(clientes.isEmpty()){
+    public Class<?> getColumnClass(int ColumnIndex) {
+        if (clientes.isEmpty()) {
             return Object.class;
         }
         return this.getValueAt(0, ColumnIndex).getClass();
     }
-    
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         /*
         Esse switch organiza as linhas e colunas de acordo com as informações salvas no seu devido lugar no modelo criado
-        */
-        switch(columnIndex){
+         */
+        switch (columnIndex) {
             case 0:
                 return clientes.get(rowIndex).getNomeCliente();
             case 1:
@@ -65,11 +63,11 @@ public class TableModelCliente extends AbstractTableModel{
                 return "";
             case 4:
                 return "";
-            default:  return "Dado não encontrado";
+            default:
+                return "Dado não encontrado";
         }
     }
-    
-    
+
     public String[] getColumns() {
         return columns;
     }
@@ -85,6 +83,4 @@ public class TableModelCliente extends AbstractTableModel{
 //    public boolean isEmpty() {
 //        return true;
 //    }
-
-
 }
