@@ -4,7 +4,7 @@
  */
 package util;
 
-import model.cliente;
+import model.livro;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -13,14 +13,14 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Saimon
  */
-public class TableModelCliente extends AbstractTableModel {
+public class tableModelLivros extends AbstractTableModel {
 
-    String[] columns = {"idCliente", "nomeCliente", "cpf", "Email", "Telefone", "Endereço"};
-    List<cliente> clientes = new ArrayList();
+    String[] columns = {"Titulo", "Autor", "Ano de publicação", "Editora", "Excluir"};
+    List<livro> livros = new ArrayList();
 
     @Override
     public int getRowCount() {
-        return clientes.size();
+        return livros.size();
     }
 
     @Override
@@ -33,15 +33,15 @@ public class TableModelCliente extends AbstractTableModel {
         return columns[columnIndex]; // <--Irá sobreescrever os nomes das colunas no model
     }
 
-    //celula para editar um cliente
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == 3;
-    }
+    //celula para editar um livro
+//    @Override
+//    public boolean isCellEditable(int rowIndex, int columnIndex) {
+//        return columnIndex == 3;
+//    }
 
     @Override
     public Class<?> getColumnClass(int ColumnIndex) {
-        if (clientes.isEmpty()) {
+        if (livros.isEmpty()) {
             return Object.class;
         }
         return this.getValueAt(0, ColumnIndex).getClass();
@@ -54,18 +54,15 @@ public class TableModelCliente extends AbstractTableModel {
          */
         switch (columnIndex) {
             case 0:
-                return clientes.get(rowIndex).getNomeCliente();
+                return livros.get(rowIndex).getTitulo();
             case 1:
-                return clientes.get(rowIndex).getCpf();
+                return livros.get(rowIndex).getAutor();
             case 2:
-                return clientes.get(rowIndex).getEmail();
+                return livros.get(rowIndex).getAnoPublicacao();
             case 3:
-                return clientes.get(rowIndex).getTelefone();
+                return livros.get(rowIndex).getEditora();
             case 4:
-                return clientes.get(rowIndex).getEndereco();
-            case 5:
                 return "";
-
             default:
                 return "Dado não encontrado";
         }
@@ -75,12 +72,12 @@ public class TableModelCliente extends AbstractTableModel {
         return columns;
     }
 
-    public List<cliente> getclientes() {
-        return clientes;
+    public List<livro> getlivros() {
+        return livros;
     }
 
-    public void setclientes(List<cliente> clientes) {
-        this.clientes = clientes;
+    public void setlivros(List<livro> livros) {
+        this.livros = livros;
     }
 
     public boolean isEmpty() {

@@ -88,7 +88,7 @@ public class livroController {
     }
     
     public void remove(int idLivro, int idSecao){
-        String sql = "DELETE FROM livro WHERE idLivro = ? OR idSecao = ?";
+        String sql = "DELETE FROM livro WHERE idLivro = ? or idSecao = ?";
         
         Connection connect = null;
         PreparedStatement stat = null;

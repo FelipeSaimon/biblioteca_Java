@@ -7,10 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import static javax.swing.UIManager.getInt;
 import model.cliente;
-import util.ButtonColumnCellRender;
-import util.TableModelCliente;
 
 /**
  *
@@ -65,8 +62,8 @@ public class clienteController {
             statement.setString(1, cliente.getNomeCliente());
             statement.setString(2, cliente.getEmail());
             statement.setString(3, cliente.getTelefone());
-            
-            statement.setInt(4,cliente.getIdCliente());
+
+            statement.setInt(4, cliente.getIdCliente());
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar um projeto", e);
@@ -134,17 +131,12 @@ public class clienteController {
         return clientes;
     }
 
-    public cliente getOne() {
+    public cliente getOne(int idCliente) {
         String sql = "SELECT * FROM cliente WHERE idCliente = ?";
 
         Connection connect = null;
         PreparedStatement statement = null;
-        /*
-        ANOTA��ES
-            O Resultset � uma classe da API JAVA que permite percorrermos um DataTable de alguma consulta em um banco de dados.
-            Ao ser inicializado, o Resultset coloca seu cursor na primeira linha do DataTable, o m�todo next()
-            permite que o ponteiro seja direcionado para a pr�xima linha caso exista.
-         */
+
         ResultSet resultado = null;
         cliente cliente = new cliente();
         try {
@@ -153,12 +145,12 @@ public class clienteController {
 
             resultado = statement.executeQuery();
 
-            cliente.setIdCliente(resultado.getInt("idCliente"));
-            cliente.setNomeCliente(resultado.getString("nomeCliente"));
-            cliente.setEmail(resultado.getString("email"));
-            cliente.setTelefone(resultado.getString("Telefone"));
-//            cliente.setIdCliente(getInt("idCliente"));
-            
+            while (resultado.next()) {
+                cliente.setIdCliente(resultado.getInt("idCliente"));
+                cliente.setNomeCliente(resultado.getString("nomeCliente"));
+                cliente.setEmail(resultado.getString("email"));
+                cliente.setTelefone(resultado.getString("Telefone"));
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao exibir esse cliente", e);
@@ -167,4 +159,6 @@ public class clienteController {
         }
         return cliente;
     }
+
+
 }

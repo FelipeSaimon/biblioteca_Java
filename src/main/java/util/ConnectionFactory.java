@@ -82,4 +82,6 @@ public class ConnectionFactory {
             throw new RuntimeException("Erro ao fechar a conex�o com o banco de dados", ex);
         }
     }
+
+
 }

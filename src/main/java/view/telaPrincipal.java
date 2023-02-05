@@ -4,20 +4,25 @@
  */
 package view;
 
-import controller.clienteController;
-import java.awt.BorderLayout;
+import controller.livroController;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,9 +30,10 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
-import model.cliente;
+import model.livro;
 import util.ButtonColumnCellRender;
-import util.TableModelCliente;
+import util.tableModelLivros;
+import view.clienteView;
 
 /**
  *
@@ -35,17 +41,16 @@ import util.TableModelCliente;
  */
 public final class telaPrincipal extends javax.swing.JFrame {
 
-    TableModelCliente clientesModel;
-    clienteController clienteControl;
+    livroController livroControll;
+    tableModelLivros livrosModel;
 
     /**
      * Creates new form telaPrincipal
      */
     public telaPrincipal() {
         initComponents();
-        initDataController();
-        initComponentsModel();
-        decorateTablecliente();
+
+        decorateTableLivros();
     }
 
     /**
@@ -57,43 +62,38 @@ public final class telaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PanelClientes = new JPanel();
-        JScrollPane jScrollPane1 = new JScrollPane();
-        tableClientes = new JTable();
+        Panellivros = new JPanel();
+        JScrollPane jScrollPane2 = new JScrollPane();
+        tableLivros = new JTable();
         JPanel jPanel1 = new JPanel();
         JLabel systemTitle = new JLabel();
         JLabel jLabel2 = new JLabel();
         JPanel jPanel2 = new JPanel();
-        registerClient = new JLabel();
         registerLivro = new JLabel();
         JLabel jLabel1 = new JLabel();
-        visualizaClientes = new JLabel();
-        JLabel jLabel5 = new JLabel();
-        JLabel jLabel6 = new JLabel();
-        PanelPrincipal = new JPanel();
-        PanelVazio = new JPanel();
+        clientes = new JButton();
+        desktop = new JDesktopPane();
         jLabel3 = new JLabel();
-        JLabel jLabel4 = new JLabel();
+        jLabel4 = new JLabel();
 
-        PanelClientes.setBackground(new Color(255, 255, 255));
-        PanelClientes.setBorder(BorderFactory.createEtchedBorder());
+        Panellivros.setBackground(new Color(255, 255, 255));
 
-        tableClientes.setModel(new DefaultTableModel(
+        tableLivros.setModel(new DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nome do cliente", "Email", "Telefone"
+                "Título", "Autor", "Ano de publicação", "Editora", "Excluir"
             }
         ) {
             Class[] types = new Class [] {
-                String.class, String.class, String.class
+                String.class, String.class, String.class, String.class, Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -104,26 +104,23 @@ public final class telaPrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tableClientes.addMouseListener(new MouseAdapter() {
+        tableLivros.setFillsViewportHeight(true);
+        tableLivros.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                tableClientesMouseClicked(evt);
+                tableLivrosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tableClientes);
+        jScrollPane2.setViewportView(tableLivros);
 
-        GroupLayout PanelClientesLayout = new GroupLayout(PanelClientes);
-        PanelClientes.setLayout(PanelClientesLayout);
-        PanelClientesLayout.setHorizontalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(PanelClientesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
-                .addContainerGap())
+        GroupLayout PanellivrosLayout = new GroupLayout(Panellivros);
+        Panellivros.setLayout(PanellivrosLayout);
+        PanellivrosLayout.setHorizontalGroup(PanellivrosLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
         );
-        PanelClientesLayout.setVerticalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(PanelClientesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
-                .addContainerGap())
+        PanellivrosLayout.setVerticalGroup(PanellivrosLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(PanellivrosLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -160,14 +157,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
         jPanel2.setBackground(new Color(255, 255, 255));
         jPanel2.setBorder(BorderFactory.createEtchedBorder());
 
-        registerClient.setIcon(new ImageIcon(getClass().getResource("/add user1.png"))); // NOI18N
-        registerClient.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                registerClientMouseClicked(evt);
-            }
-        });
-
-        registerLivro.setIcon(new ImageIcon(getClass().getResource("/add-book1.png"))); // NOI18N
+        registerLivro.setIcon(new ImageIcon(getClass().getResource("/books_1.png"))); // NOI18N
         registerLivro.setCursor(new Cursor(Cursor.HAND_CURSOR));
         registerLivro.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -183,65 +173,42 @@ public final class telaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        visualizaClientes.setBackground(new Color(0, 102, 102));
-        visualizaClientes.setIcon(new ImageIcon(getClass().getResource("/visualizar-min.png"))); // NOI18N
-        visualizaClientes.setVerticalAlignment(SwingConstants.BOTTOM);
-        visualizaClientes.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        visualizaClientes.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                visualizaClientesMouseClicked(evt);
+        clientes.setIcon(new ImageIcon(getClass().getResource("/users_1.png"))); // NOI18N
+        clientes.setBorder(null);
+        clientes.setBorderPainted(false);
+        clientes.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        clientes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                clientesActionPerformed(evt);
             }
         });
-
-        jLabel5.setIcon(new ImageIcon(getClass().getResource("/visualizar-min.png"))); // NOI18N
-        jLabel5.setVerticalAlignment(SwingConstants.BOTTOM);
-        jLabel5.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        jLabel6.setBackground(new Color(255, 255, 255));
-        jLabel6.setIcon(new ImageIcon(getClass().getResource("/visualizar-min.png"))); // NOI18N
-        jLabel6.setVerticalAlignment(SwingConstants.BOTTOM);
-        jLabel6.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(registerClient)
-                    .addComponent(registerLivro)
-                    .addComponent(jLabel1))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel5, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(visualizaClientes, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(clientes)
+                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(registerLivro, GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1, GroupLayout.Alignment.LEADING)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(registerClient)
-                    .addComponent(visualizaClientes))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(registerLivro)
-                    .addComponent(jLabel5))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6, GroupLayout.Alignment.TRAILING))
-                .addGap(20, 20, 20))
+                .addGap(31, 31, 31)
+                .addComponent(clientes)
+                .addGap(37, 37, 37)
+                .addComponent(registerLivro)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel1)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        PanelPrincipal.setBackground(new Color(255, 255, 255));
-        PanelPrincipal.setBorder(BorderFactory.createEtchedBorder());
-        PanelPrincipal.setLayout(new BorderLayout());
-
-        PanelVazio.setBackground(new Color(255, 255, 255));
-        PanelVazio.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        PanelVazio.setPreferredSize(new Dimension(645, 350));
+        desktop.setBackground(new Color(255, 255, 255));
+        desktop.setBorder(BorderFactory.createEtchedBorder());
+        desktop.setPreferredSize(new Dimension(617, 471));
 
         jLabel3.setBackground(new Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -253,26 +220,27 @@ public final class telaPrincipal extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(SwingConstants.CENTER);
         jLabel4.setText("BEM VINDO");
 
-        GroupLayout PanelVazioLayout = new GroupLayout(PanelVazio);
-        PanelVazio.setLayout(PanelVazioLayout);
-        PanelVazioLayout.setHorizontalGroup(PanelVazioLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(PanelVazioLayout.createSequentialGroup()
-                .addGap(220, 220, 220)
-                .addGroup(PanelVazioLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+        desktop.setLayer(jLabel3, JLayeredPane.DEFAULT_LAYER);
+        desktop.setLayer(jLabel4, JLayeredPane.DEFAULT_LAYER);
+
+        GroupLayout desktopLayout = new GroupLayout(desktop);
+        desktop.setLayout(desktopLayout);
+        desktopLayout.setHorizontalGroup(desktopLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
+                .addContainerGap(197, Short.MAX_VALUE)
+                .addGroup(desktopLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
-                .addGap(220, 220, 220))
+                .addGap(213, 213, 213))
         );
-        PanelVazioLayout.setVerticalGroup(PanelVazioLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(PanelVazioLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
+        desktopLayout.setVerticalGroup(desktopLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(desktopLayout.createSequentialGroup()
+                .addGap(106, 106, 106)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel4)
-                .addContainerGap())
+                .addContainerGap(69, Short.MAX_VALUE))
         );
-
-        PanelPrincipal.add(PanelVazio, BorderLayout.CENTER);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -282,7 +250,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelPrincipal, GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
+                .addComponent(desktop, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -290,59 +258,82 @@ public final class telaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PanelPrincipal, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(desktop, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void registerClientMouseClicked(MouseEvent evt) {//GEN-FIRST:event_registerClientMouseClicked
-        // TODO add your handling code here:
-        cadastroCliente cliente = new cadastroCliente(this, rootPaneCheckingEnabled);
-        cliente.setVisible(true);
-    }//GEN-LAST:event_registerClientMouseClicked
-
     private void registerLivroMouseClicked(MouseEvent evt) {//GEN-FIRST:event_registerLivroMouseClicked
         // TODO add your handling code here:
         cadastroLivro livro = new cadastroLivro(this, rootPaneCheckingEnabled);
         livro.setVisible(true);
+
+        livro.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                loadlivros();
+            }
+        });
     }//GEN-LAST:event_registerLivroMouseClicked
 
     private void jLabel1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
         emprestimoView emprestimo = new emprestimoView(this, rootPaneCheckingEnabled);
         emprestimo.setVisible(true);
+
+        emprestimo.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+//                loadclientes();
+            }
+        });
     }//GEN-LAST:event_jLabel1MouseClicked
 
-    private void visualizaClientesMouseClicked(MouseEvent evt) {//GEN-FIRST:event_visualizaClientesMouseClicked
-        // TODO add your handling code here:
-        loadclientes();
-//        System.out.println("Teste de clique");
+    private void tableLivrosMouseClicked(MouseEvent evt) {//GEN-FIRST:event_tableLivrosMouseClicked
+//        // TODO add your handling code here:
+//        int rowIndex = tableClientes.rowAtPoint(evt.getPoint());
+//        int columnIndex = tableClientes.columnAtPoint(evt.getPoint());
+//        livro livro = livrosModel.getlivros().get(rowIndex);
+//
+//
+//        switch (columnIndex) {
+//            case 3:
+////                cadastroCliente updateCliente = new cadastroCliente(this, rootPaneCheckingEnabled);;
+////                updateCliente.setVisible(true);
+////
+////                List<cliente> listaClientes = clienteControl.getAll();
+////                cliente clienteUp = clienteControl.getOne(getCol);
+////
+////                for (int i = 0; i < listaClientes.size(); i++) {
+////                    if (clienteUp == listaClientes.get(i)) {
+////                        clienteControl.update(cliente);
+////                    } else {
+////                        clienteControl.save(cliente);
+////                    }
+////                }
+//
+//                break;
+//
+//            case 4:
+//                livroControll.remove(livro.getIdLivro(), livro.getIdSecao());
+//                livrosModel.getlivros().remove(livro);
+//                break;
+//        }
+    }//GEN-LAST:event_tableLivrosMouseClicked
 
-    }//GEN-LAST:event_visualizaClientesMouseClicked
-
-    
-    //CONFIGURANDO OS BOTÕES DE EDITAR E DELETAR NA TABELA
-    private void tableClientesMouseClicked(MouseEvent evt) {//GEN-FIRST:event_tableClientesMouseClicked
+    private void clientesActionPerformed(ActionEvent evt) {//GEN-FIRST:event_clientesActionPerformed
         // TODO add your handling code here:
-        int rowIndex = tableClientes.rowAtPoint(evt.getPoint());
-        int columnIndex = tableClientes.columnAtPoint(evt.getPoint());
-        cliente cliente = clientesModel.getclientes().get(rowIndex);
-        switch (columnIndex) {
-            case 3:
-                cadastroCliente updateCliente = new cadastroCliente(this, rootPaneCheckingEnabled);;
-                updateCliente.setVisible(true);
-                clientesModel.getclientes().update(cliente);
-                clienteControl.update(cliente);
-                break;
-            case 4:
-                clienteControl.remove(cliente.getIdCliente());
-                clientesModel.getclientes().remove(cliente);
-                break;
-        }
-    }//GEN-LAST:event_tableClientesMouseClicked
+        clienteView Screen = new clienteView();
+        Screen.setVisible(true);
+        desktop.remove(jLabel3);
+        desktop.remove(jLabel4);
+        
+        desktop.add(Screen);
+        System.out.println("click action");
+    }//GEN-LAST:event_clientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -380,87 +371,52 @@ public final class telaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    JPanel PanelClientes;
-    JPanel PanelPrincipal;
-    JPanel PanelVazio;
+    JPanel Panellivros;
+    JButton clientes;
+    JDesktopPane desktop;
     JLabel jLabel3;
-    JLabel registerClient;
+    JLabel jLabel4;
     JLabel registerLivro;
-    JTable tableClientes;
-    JLabel visualizaClientes;
+    JTable tableLivros;
     // End of variables declaration//GEN-END:variables
 
     //CONFIGURANDO OS CLIENTES
-    
-    public void decorateTablecliente() {
-        //Ao setar a fonte passa-se pelo menos 3 parametros ao metodo font()
-        //Nome da fonte
-        //Espessura (Normal, negrito, etc)
-        //Tamanho da fonte
-        tableClientes.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+//CONFIGURANDO OS livroS
+    public void decorateTableLivros() {
+        tableLivros.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        tableLivros.getTableHeader().setBackground(new Color(0, 102, 102));
+        tableLivros.getTableHeader().setForeground(new Color(255, 255, 255));
 
-        //Setando a cor verde do projeto
-        tableClientes.getTableHeader().setBackground(new Color(0, 102, 102));
-        tableClientes.getTableHeader().setForeground(new Color(255, 255, 255));
+        tableLivros.getAutoCreateRowSorter();
 
-        //Esse metodo permite a ordena��o da tabela pela coluna selecionada
-        tableClientes.getAutoCreateRowSorter();
-
-        //Dentro da tableClientes, pega o model dela, pegando a sua coluna 2 (nesse caso)
-        //
-        tableClientes.getColumnModel().getColumn(3).setCellRenderer(new ButtonColumnCellRender("editar"));
-        tableClientes.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRender("excluir"));
-
+        tableLivros.getColumnModel().getColumn(4).setCellRenderer(new ButtonColumnCellRender("excluir"));
     }
 
-    public void initDataController() {
-        clienteControl = new clienteController();
-//        projectController = new ProjectController();
+    public void loadlivros() {
+        List<livro> livros = livroControll.getAll();
+        livrosModel.setlivros(livros);
+
+//        showTablelivros(!livros.isEmpty());
     }
 
-    //Gerencia a parte visual do jList
-    public void initComponentsModel() {
-//        projectsModel = new DefaultListModel();
-//        loadProjects();
-
-        clientesModel = new TableModelCliente();
-        tableClientes.setModel(clientesModel);
-
-        //Verificaçao para o que será apresentado na tela criada quando for criada
-//        if (!clientesModel.isEmpty()) {
-//            loadclientes();
+//    private void showTablelivros(boolean haslivros) {
+//        if (haslivros) {
+//            if (PanelVazio.isVisible()) {
+//                PanelVazio.setVisible(false);
+//                PanelPrincipal.remove(PanelVazio);
+//            }
+//            PanelPrincipal.add(Panellivros);
+//            Panellivros.setVisible(true);
+//            Panellivros.setSize(PanelPrincipal.getWidth(), PanelPrincipal.getHeight());
+//        } else {
+//            if (Panellivros.isVisible()) {
+//                Panellivros.setVisible(false);
+//                PanelPrincipal.remove(Panellivros);
+//            }
+//            PanelPrincipal.add(PanelVazio);
+//            PanelVazio.setVisible(true);
+//            PanelVazio.setSize(PanelPrincipal.getWidth(), PanelPrincipal.getHeight());
 //        }
-    }
-
-    public void loadclientes() {
-        List<cliente> clientes = clienteControl.getAll();
-        clientesModel.setclientes(clientes);
-        //verifica caso a clientes esteja vazia
-        showTableClientes(!clientes.isEmpty());
-    }
-
-    //CONFIGURAÇÃO DE EXIBIÇÃO DA TABELA DE CLIENTE OU A VAZIA
-    private void showTableClientes(boolean hasclientes) {
-        if (hasclientes) {
-            if (PanelVazio.isVisible()) {
-                PanelVazio.setVisible(false);
-                PanelPrincipal.remove(PanelVazio);
-            }
-            PanelPrincipal.add(PanelClientes);
-            PanelClientes.setVisible(true);
-            PanelClientes.setSize(PanelPrincipal.getWidth(), PanelPrincipal.getHeight());
-        } else {
-            if (PanelClientes.isVisible()) {
-                PanelClientes.setVisible(false);
-                PanelPrincipal.remove(PanelClientes);
-            }
-            PanelPrincipal.add(PanelVazio);
-            PanelVazio.setVisible(true);
-            PanelVazio.setSize(PanelPrincipal.getWidth(), PanelPrincipal.getHeight());
-        }
-    }
-
-
-
+//    }
     //CONFIGURANDO OS LIVROS
 }

@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 import model.cliente;
+//import util.updateData;
 
 /**
  *
@@ -192,6 +193,25 @@ public class cadastroCliente extends javax.swing.JDialog {
 
     private void jLabel8MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
+                try {
+            cliente cliente = new cliente();
+            
+            cliente.setNomeCliente(nome.getText());
+            cliente.setCpf(cpf.getText());
+            cliente.setTelefone(telefone.getText());
+            cliente.setEmail(Email.getText());
+            cliente.setEndereco(endereco.getText());
+//            
+//            if(updateData. == null){
+//                
+//            }
+            clienteControl.save(cliente);
+            JOptionPane.showMessageDialog(rootPane, "cliente adicionado com sucesso");
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Erro ao adicionar um cliente");
+        }
+        
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jLabel1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
