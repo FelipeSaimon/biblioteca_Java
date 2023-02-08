@@ -190,9 +190,8 @@ public final class telaPrincipal extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(clientes)
-                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(registerLivro, GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, GroupLayout.Alignment.LEADING)))
+                    .addComponent(registerLivro)
+                    .addComponent(jLabel1))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -208,7 +207,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
 
         desktop.setBackground(new Color(255, 255, 255));
         desktop.setBorder(BorderFactory.createEtchedBorder());
-        desktop.setPreferredSize(new Dimension(617, 471));
+        desktop.setPreferredSize(new Dimension(634, 471));
 
         jLabel3.setBackground(new Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -227,7 +226,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(desktopLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
-                .addContainerGap(197, Short.MAX_VALUE)
+                .addContainerGap(214, Short.MAX_VALUE)
                 .addGroup(desktopLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4))
@@ -250,7 +249,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(desktop, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(desktop, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -268,30 +267,34 @@ public final class telaPrincipal extends javax.swing.JFrame {
 
     private void registerLivroMouseClicked(MouseEvent evt) {//GEN-FIRST:event_registerLivroMouseClicked
         // TODO add your handling code here:
-        cadastroLivro livro = new cadastroLivro(this, rootPaneCheckingEnabled);
-        livro.setVisible(true);
+        livrosView Screen = new livrosView();
+        Screen.setVisible(true);
+        desktop.remove(jLabel3);
+        desktop.remove(jLabel4);
 
-        livro.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                loadlivros();
-            }
-        });
+        desktop.add(Screen);
+        System.out.println("click action");
     }//GEN-LAST:event_registerLivroMouseClicked
 
     private void jLabel1MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
         emprestimoView emprestimo = new emprestimoView(this, rootPaneCheckingEnabled);
         emprestimo.setVisible(true);
+        desktop.remove(jLabel3);
+        desktop.remove(jLabel4);
 
-        emprestimo.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-//                loadclientes();
-            }
-        });
+        desktop.add(emprestimo);
+//        emprestimo.addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowClosed(WindowEvent e) {
+////                loadclientes();
+//            }
+//        });
     }//GEN-LAST:event_jLabel1MouseClicked
 
+//    private void closedWindow(){
+//       
+//    }
     private void tableLivrosMouseClicked(MouseEvent evt) {//GEN-FIRST:event_tableLivrosMouseClicked
 //        // TODO add your handling code here:
 //        int rowIndex = tableClientes.rowAtPoint(evt.getPoint());
@@ -330,7 +333,7 @@ public final class telaPrincipal extends javax.swing.JFrame {
         Screen.setVisible(true);
         desktop.remove(jLabel3);
         desktop.remove(jLabel4);
-        
+
         desktop.add(Screen);
         System.out.println("click action");
     }//GEN-LAST:event_clientesActionPerformed

@@ -59,7 +59,7 @@ public class livroController {
     
     //Atualiza dados de um projeto
     public void update(livro livro){
-        String sql = "UPDATE livros SET titulo = ? , autor = ?, paginas = ?, anoPublicacao= ?, editora = ?, disponivel = ? WHERE idCliente = ?";
+        String sql = "UPDATE livros SET titulo = ? , autor = ?, paginas = ?, anoPublicacao= ?, editora = ?, disponivel = ? WHERE idLivro = ?";
         
         Connection connect = null;
         PreparedStatement statement = null;
@@ -87,8 +87,8 @@ public class livroController {
         
     }
     
-    public void remove(int idLivro, int idSecao){
-        String sql = "DELETE FROM livro WHERE idLivro = ? or idSecao = ?";
+    public void remove(int idLivro){
+        String sql = "DELETE FROM livro WHERE idLivro = ?";
         
         Connection connect = null;
         PreparedStatement stat = null;
@@ -98,7 +98,7 @@ public class livroController {
             
             stat = (PreparedStatement) connect.prepareStatement(sql);
             stat.setInt(1, idLivro);
-            stat.setInt(2, idSecao);
+//            stat.setInt(2, idSecao);
             stat.execute();
             
         } catch (SQLException e) {

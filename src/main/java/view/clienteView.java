@@ -4,6 +4,7 @@ import controller.clienteController;
 //import model.clienteView;
 import java.awt.Color;
 import java.awt.Font;
+import static java.awt.SystemColor.desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -63,7 +64,7 @@ public class clienteView extends javax.swing.JInternalFrame {
         JLabel jLabel1 = new JLabel();
         JLabel jLabel2 = new JLabel();
         addCliente = new JLabel();
-        JLabel jLabel9 = new JLabel();
+        deleteCliente = new JLabel();
         JPanel jPanel3 = new JPanel();
         PanelClientes = new JPanel();
         JScrollPane jScrollPane1 = new JScrollPane();
@@ -85,6 +86,7 @@ public class clienteView extends javax.swing.JInternalFrame {
         JLabel jLabel10 = new JLabel();
         idClienteField = new JTextField();
         consultar = new JButton();
+        JButton closed = new JButton();
 
         setBackground(new Color(204, 204, 204));
         setBorder(null);
@@ -99,6 +101,11 @@ public class clienteView extends javax.swing.JInternalFrame {
         jLabel1.setText("Clientes");
 
         jLabel2.setIcon(new ImageIcon(getClass().getResource("/Search_1.png"))); // NOI18N
+        jLabel2.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         addCliente.setIcon(new ImageIcon(getClass().getResource("/add user1.png"))); // NOI18N
         addCliente.addMouseListener(new MouseAdapter() {
@@ -107,7 +114,12 @@ public class clienteView extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel9.setIcon(new ImageIcon(getClass().getResource("/delete-user-icon-1.png"))); // NOI18N
+        deleteCliente.setIcon(new ImageIcon(getClass().getResource("/delete-user-icon-1.png"))); // NOI18N
+        deleteCliente.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                deleteClienteMouseClicked(evt);
+            }
+        });
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,19 +127,19 @@ public class clienteView extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 154, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(45, 45, 45)
                 .addComponent(addCliente)
                 .addGap(45, 45, 45)
-                .addComponent(jLabel9)
+                .addComponent(deleteCliente)
                 .addGap(24, 24, 24))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
+                    .addComponent(deleteCliente)
                     .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addCliente, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -172,7 +184,7 @@ public class clienteView extends javax.swing.JInternalFrame {
             .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING)
         );
         PanelClientesLayout.setVerticalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
         );
 
         formClientes.setBackground(new Color(255, 255, 255));
@@ -214,10 +226,18 @@ public class clienteView extends javax.swing.JInternalFrame {
             }
         });
 
+        closed.setFont(new Font("Segoe UI", 1, 12)); // NOI18N
+        closed.setText("Sair");
+        closed.setActionCommand("");
+        closed.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                closedActionPerformed(evt);
+            }
+        });
+
         GroupLayout formClientesLayout = new GroupLayout(formClientes);
         formClientes.setLayout(formClientesLayout);
         formClientesLayout.setHorizontalGroup(formClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, GroupLayout.Alignment.TRAILING)
             .addGroup(formClientesLayout.createSequentialGroup()
                 .addGroup(formClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(formClientesLayout.createSequentialGroup()
@@ -253,17 +273,24 @@ public class clienteView extends javax.swing.JInternalFrame {
                                         .addComponent(getNomeCliente, GroupLayout.PREFERRED_SIZE, 294, GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(formClientesLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(getPesqNome, GroupLayout.PREFERRED_SIZE, 298, GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 23, Short.MAX_VALUE))
+                        .addGroup(formClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 575, GroupLayout.PREFERRED_SIZE)
+                            .addGroup(formClientesLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(getPesqNome, GroupLayout.PREFERRED_SIZE, 298, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(closed)
+                                .addGap(14, 14, 14)))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         formClientesLayout.setVerticalGroup(formClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(formClientesLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(formClientesLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(getPesqNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addComponent(getPesqNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closed))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -321,7 +348,7 @@ public class clienteView extends javax.swing.JInternalFrame {
                 .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 626, 471);
+        setBounds(0, 0, 634, 471);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addClienteMouseClicked(MouseEvent evt) {//GEN-FIRST:event_addClienteMouseClicked
@@ -372,9 +399,9 @@ public class clienteView extends javax.swing.JInternalFrame {
     }
 
     // consulta dados por id
-    private void consultar(){
+    private void consultar() {
         String sql = "SELECT * FROM cliente WHERE idCliente = ?";
-        
+
         Connection connect = null;
         PreparedStatement statement = null;
         ResultSet resultado = null;
@@ -392,14 +419,59 @@ public class clienteView extends javax.swing.JInternalFrame {
                 getEnderecoCliente.setText(resultado.getString(6));
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Cliente nao cadastrado");
-            }
-                    
-//            tableClientes.setModel(DbUtils.resultSetToTableModel(resultado));
+                getNomeCliente.setText(null);
+                getEmailCliente.setText(null);
+                getCPFCliente.setText(null);
+                getTelefoneCliente.setText(null);
+                getEnderecoCliente.setText(null);
 
+            }
+
+//            tableClientes.setModel(DbUtils.resultSetToTableModel(resultado));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e);
         }
     }
+    
+    
+    
+    public void updateClient() {
+        String sql = "UPDATE clientes SET nomeCliente = ? , email = ?, telefone = ?, endereco = ?, cpf = ? WHERE idCliente = ?";
+
+        Connection connect = null;
+        PreparedStatement statement = null;
+
+        try {
+            connect = ConnectionFactory.getConnection();
+            statement = connect.prepareStatement(sql);
+
+            statement.setString(1, getNomeCliente.getText());
+            statement.setString(2, getTelefoneCliente.getText());
+            statement.setString(3, getEmailCliente.getText());
+            statement.setString(4, getEnderecoCliente.getText());
+            statement.setString(5, getCPFCliente.getText());
+            statement.setString(6, idClienteField.getText());
+
+            int add = statement.executeUpdate();
+
+            if (add > 0) {
+                JOptionPane.showMessageDialog(rootPane, "livro salvo com sucesso");
+                getNomeCliente.setText(null);
+                getTelefoneCliente.setText(null);
+                getEmailCliente.setText(null);
+                getEnderecoCliente.setText(null);
+                getCPFCliente.setText(null);
+            }
+
+            connect.close();
+            loadclientes();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane,e);
+        }
+
+    }
+
     private void getPesqNomeKeyReleased(KeyEvent evt) {//GEN-FIRST:event_getPesqNomeKeyReleased
         // TODO add your handling code here:
         PesquisaClientes();
@@ -410,11 +482,28 @@ public class clienteView extends javax.swing.JInternalFrame {
         consultar();
     }//GEN-LAST:event_consultarActionPerformed
 
+    private void closedActionPerformed(ActionEvent evt) {//GEN-FIRST:event_closedActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_closedActionPerformed
+
+    private void deleteClienteMouseClicked(MouseEvent evt) {//GEN-FIRST:event_deleteClienteMouseClicked
+        // TODO add your handling code here:
+                clienteControl.remove(Integer.parseInt( idClienteField.getText()));
+
+    }//GEN-LAST:event_deleteClienteMouseClicked
+
+    private void jLabel2MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+        updateClient();
+    }//GEN-LAST:event_jLabel2MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     JPanel PanelClientes;
     JLabel addCliente;
     JButton consultar;
+    JLabel deleteCliente;
     JTextField getCPFCliente;
     JTextField getEmailCliente;
     JTextField getEnderecoCliente;

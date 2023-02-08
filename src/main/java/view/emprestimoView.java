@@ -1,43 +1,66 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package view;
 
 import controller.emprestimoController;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import static java.lang.Integer.parseInt;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
-import javax.swing.WindowConstants;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import model.emprestimo;
-
+import net.proteanit.sql.DbUtils;
+//import net.proteanit.sql.DbUtils;
+import util.ConnectionFactory;
+import util.tableModelEmprestimo;
 /**
  *
  * @author Saimon
  */
-public class emprestimoView extends javax.swing.JDialog {
+public class emprestimoView extends javax.swing.JInternalFrame {
 
-    emprestimoController emprestControl;
+    tableModelEmprestimo emprestimosModel;
+    emprestimoController emprestimoControl;
+    ConnectionFactory connect;
+    /**
+     * Creates new form emprestimosView
+     */
+//    public emprestimoView() {
+//        this(this, rootPaneCheckingEnabled);
+//    }
 
     /**
-     * Creates new form emprestimo
+     * Creates new form emprestimosView
      */
-    public emprestimoView(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public emprestimoView(telaPrincipal aThis, boolean rootPaneCheckingEnabled1) {
         initComponents();
-        emprestControl = new emprestimoController();
+        initDataController();
+        initComponentsModel();
+        decorateTableEmprestimo();
     }
 
     /**
@@ -51,203 +74,412 @@ public class emprestimoView extends javax.swing.JDialog {
 
         JPanel jPanel1 = new JPanel();
         JLabel jLabel1 = new JLabel();
-        JLabel saveEmprestimo = new JLabel();
-        JPanel jPanel2 = new JPanel();
-        JLabel Livro = new JLabel();
-        bookCode = new JTextField();
-        ClienteName = new JLabel();
-        ClienteEmprestimo = new JTextField();
+        JLabel jLabel2 = new JLabel();
+        addEmprestimo = new JLabel();
+        JLabel jLabel9 = new JLabel();
+        JPanel jPanel3 = new JPanel();
+        PanelClientes = new JPanel();
+        JScrollPane jScrollPane1 = new JScrollPane();
+        tableEmprestimo = new JTable();
+        JPanel formLivros = new JPanel();
+        JLabel jLabel3 = new JLabel();
+        getPesqNome = new JTextField();
+        JSeparator jSeparator1 = new JSeparator();
+        jLabel4 = new JLabel();
+        getNomeCliente = new JTextField();
         JLabel jLabel5 = new JLabel();
-        dtEmprest = new JTextField();
+        getDataEmprestimo = new JTextField();
         JLabel jLabel6 = new JLabel();
-        dtDevolv = new JTextField();
-
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        getDataDevolucao = new JTextField();
+        JLabel jLabel7 = new JLabel();
+        getQtLivros = new JTextField();
+        JLabel jLabel10 = new JLabel();
+        idEmprestimoField = new JTextField();
+        consultar = new JButton();
+        JButton closed = new JButton();
 
         jPanel1.setBackground(new Color(0, 102, 102));
 
-        jLabel1.setFont(new Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setFont(new Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new Color(255, 255, 255));
-        jLabel1.setText("Emprestimo");
+        jLabel1.setText("Emprestimos");
 
-        saveEmprestimo.setIcon(new ImageIcon(getClass().getResource("/add.png"))); // NOI18N
-        saveEmprestimo.addMouseListener(new MouseAdapter() {
+        jLabel2.setIcon(new ImageIcon(getClass().getResource("/Search_1.png"))); // NOI18N
+
+        addEmprestimo.setIcon(new ImageIcon(getClass().getResource("/add user1.png"))); // NOI18N
+        addEmprestimo.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                saveEmprestimoMouseClicked(evt);
+                addEmprestimoMouseClicked(evt);
             }
         });
+
+        jLabel9.setIcon(new ImageIcon(getClass().getResource("/delete-user-icon-1.png"))); // NOI18N
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(saveEmprestimo, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGap(46, 46, 46)
+                .addComponent(jLabel2)
+                .addGap(39, 39, 39)
+                .addComponent(addEmprestimo)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel9)
+                .addGap(24, 24, 24))
         );
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(saveEmprestimo, GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                    .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel9)
+                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addEmprestimo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(10, 10, 10))))
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBackground(new Color(204, 204, 204));
+
+        PanelClientes.setBackground(new Color(255, 255, 255));
+        PanelClientes.setBorder(BorderFactory.createEtchedBorder());
+
+        tableEmprestimo.setModel(new DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "Cliente", "Qt de livros", "Data Emprestimo", "Data Devolução", "Excluir"
+            }
+        ) {
+            Class[] types = new Class [] {
+                Integer.class, String.class, Integer.class, String.class, String.class, String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableEmprestimo.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(tableEmprestimo);
+        tableEmprestimo.getColumnModel().getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        GroupLayout PanelClientesLayout = new GroupLayout(PanelClientes);
+        PanelClientes.setLayout(PanelClientesLayout);
+        PanelClientesLayout.setHorizontalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING)
+        );
+        PanelClientesLayout.setVerticalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+        );
+
+        formLivros.setBackground(new Color(255, 255, 255));
+        formLivros.setBorder(BorderFactory.createEtchedBorder());
+
+        jLabel3.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Buscando pelo cliente");
+
+        getPesqNome.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent evt) {
+                getPesqNomeKeyReleased(evt);
+            }
+        });
+
+        jSeparator1.setForeground(new Color(102, 102, 102));
+
+        jLabel4.setFont(new Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setText("Cliente:");
+
+        jLabel5.setFont(new Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setText("Data de emprestimo:");
+
+        jLabel6.setFont(new Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setText("Data de devolução:");
+
+        jLabel7.setFont(new Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setText("Quant de livros: ");
+
+        jLabel10.setFont(new Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel10.setText("idEmprestimo:");
+
+        consultar.setText("Consultar");
+        consultar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                consultarActionPerformed(evt);
+            }
+        });
+
+        closed.setFont(new Font("Segoe UI", 1, 12)); // NOI18N
+        closed.setText("Sair");
+        closed.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                closedActionPerformed(evt);
+            }
+        });
+
+        GroupLayout formLivrosLayout = new GroupLayout(formLivros);
+        formLivros.setLayout(formLivrosLayout);
+        formLivrosLayout.setHorizontalGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1, GroupLayout.Alignment.TRAILING)
+            .addGroup(formLivrosLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(formLivrosLayout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(idEmprestimoField, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(consultar, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(GroupLayout.Alignment.TRAILING, formLivrosLayout.createSequentialGroup()
+                        .addGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                            .addGroup(formLivrosLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(getNomeCliente, GroupLayout.PREFERRED_SIZE, 268, GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(getQtLivros, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(formLivrosLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(getDataEmprestimo, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(getDataDevolucao, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE)))
+                        .addGap(37, 37, 37))))
+            .addGroup(formLivrosLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel3)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(getPesqNome, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(closed)
+                .addGap(0, 72, Short.MAX_VALUE))
+        );
+        formLivrosLayout.setVerticalGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(formLivrosLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(getPesqNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closed))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(idEmprestimoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(consultar))
+                .addGap(18, 18, 18)
+                .addGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(getNomeCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(getQtLivros, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(getDataEmprestimo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
+                        .addComponent(getDataDevolucao, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(formLivros, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelClientes, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-
-        jPanel2.setBackground(new Color(255, 255, 255));
-        jPanel2.setBorder(BorderFactory.createEtchedBorder());
-
-        Livro.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        Livro.setText("Codigo do livro:");
-
-        ClienteName.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        ClienteName.setText("Codigo do Cliente:");
-
-        jLabel5.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setText("Emprestimo:");
-
-        jLabel6.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setText("Devolução:");
-
-        GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                    .addComponent(bookCode)
-                    .addComponent(ClienteEmprestimo)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(ClienteName)
-                            .addComponent(Livro))
-                        .addGap(107, 107, 107))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(dtEmprest, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(dtDevolv, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))))
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(Livro)
+        jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(formLivros, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bookCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(ClienteName)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ClienteEmprestimo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(dtEmprest, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dtDevolv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addComponent(PanelClientes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(6, 6, 6)
+                .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void saveEmprestimoMouseClicked(MouseEvent evt) {//GEN-FIRST:event_saveEmprestimoMouseClicked
+    private void addEmprestimoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addEmprestimoMouseClicked
         // TODO add your handling code here:
-
         try {
-            emprestimo emprest = new emprestimo();
+            emprestimo emprestimo = new emprestimo();
 
-            emprest.setIdLivro(parseInt(bookCode.getText()));
-            emprest.setIdCliente(parseInt(ClienteEmprestimo.getText()));
+            emprestimo.setNomeCliente(getNomeCliente.getText());
+            emprestimo.setQtLivros(Integer.parseInt(getQtLivros.getText()));
+            DateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                Date dataEmprestimo = formatoData.parse(getDataEmprestimo.getText());
+                Date dataDevolucao = formatoData.parse(getDataDevolucao.getText());
+                emprestimo.setDataEmprestimo(dataEmprestimo);
+                emprestimo.setDataDevolucao(dataDevolucao);
+            } catch (ParseException e) {
+                // Tratar exceção
+            }
 
-            //FORMATANDO AS DADOS DE EMPRESTIMO E DEVOLUÇÃO
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-            Date dtDevolucao = null;
-            //Pegar o valor digitado pelo usuário
-            dtDevolucao = dateFormat.parse(dtDevolv.getText());
-            emprest.setDataDevolucao(dtDevolucao);
-            emprestControl.save(emprest);
+            emprestimoControl.save(emprestimo);
+            JOptionPane.showMessageDialog(rootPane, "emprestimo salvo com sucesso");
+            getNomeCliente.setText(null);
+            getDataDevolucao.setText(null);
+            getQtLivros.setText(null);
+            getDataEmprestimo.setText(null);
             
-            JOptionPane.showMessageDialog(rootPane, "Livro emprestado com sucesso");
-            dispose();
+
+            loadEmprestimos();
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "Erro ao adicionar um emprestimo");
         }
-    }//GEN-LAST:event_saveEmprestimoMouseClicked
+    }//GEN-LAST:event_addEmprestimoMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void PesquisaEmprestimos() {
+        //Será preciso pensar em como verificar os emprestimos baseado no nome do cliente, quais livros estão emprestados a ele
+        String sql = "SELECT * FROM emprestimo INNER JOIN cliente cl ON emprestimo.idCliente = cliente.idCliente WHERE cl.nomeCliente like ?";
+        Connection connect = null;
+        PreparedStatement statement = null;
+        ResultSet resultado = null;
+
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(emprestimoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(emprestimoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(emprestimoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(emprestimoView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+            connect = ConnectionFactory.getConnection();
+            statement = connect.prepareStatement(sql);
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                emprestimoView dialog = new emprestimoView(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+            // a porcentagem indica continuação da string
+            statement.setString(1, getNomeCliente.getText() + "%");
+            resultado = statement.executeQuery();
+
+            tableEmprestimo.setModel(DbUtils.resultSetToTableModel(resultado));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
     }
 
+    private void getPesqNomeKeyReleased(KeyEvent evt) {//GEN-FIRST:event_getPesqNomeKeyReleased
+        // TODO add your handling code here:
+        PesquisaEmprestimos();
+    }//GEN-LAST:event_getPesqNomeKeyReleased
+
+    private void consultar() {
+        String sql = "SELECT * FROM emprestimo WHERE idEmprestimo = ?";
+
+        Connection connect = null;
+        PreparedStatement statement = null;
+        ResultSet resultado = null;
+
+        try {
+            connect = ConnectionFactory.getConnection();
+            statement = connect.prepareStatement(sql);
+            statement.setString(1, idEmprestimoField.getText());
+            resultado = statement.executeQuery();
+            if (resultado.next()) {
+                getNomeCliente.setText(resultado.getString(2));
+                getQtLivros.setText(resultado.getString(3));
+                getDataEmprestimo.setText(resultado.getString(4));
+                getDataDevolucao.setText(resultado.getString(5));
+                
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "emprestimo nao cadastrado");
+            }
+
+//            tableEmprestimos.setModel(DbUtils.resultSetToTableModel(resultado));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e);
+        }
+    }
+    private void consultarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
+        // TODO add your handling code here:
+        consultar();
+    }//GEN-LAST:event_consultarActionPerformed
+
+    private void closedActionPerformed(ActionEvent evt) {//GEN-FIRST:event_closedActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_closedActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    JTextField ClienteEmprestimo;
-    JLabel ClienteName;
-    JTextField bookCode;
-    JTextField dtDevolv;
-    JTextField dtEmprest;
+    JPanel PanelClientes;
+    JLabel addEmprestimo;
+    JButton consultar;
+    JTextField getDataDevolucao;
+    JTextField getDataEmprestimo;
+    JTextField getNomeCliente;
+    JTextField getPesqNome;
+    JTextField getQtLivros;
+    JTextField idEmprestimoField;
+    JLabel jLabel4;
+    JTable tableEmprestimo;
     // End of variables declaration//GEN-END:variables
+
+
+public void decorateTableEmprestimo() {
+
+        tableEmprestimo.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        tableEmprestimo.getTableHeader().setBackground(new Color(0, 102, 102));
+        tableEmprestimo.getTableHeader().setForeground(new Color(255, 255, 255));
+
+        tableEmprestimo.getAutoCreateRowSorter();
+
+    }
+    
+
+    //Gerencia a parte visual do jList
+    public void initComponentsModel() {
+        emprestimosModel = new tableModelEmprestimo();
+        tableEmprestimo.setModel((TableModel) emprestimosModel);
+
+//        Verificaçao para o que será apresentado na tela criada quando for criada
+//        if (!clientesModel.isEmpty()) {
+//            loadclientes();
+//        }
+    }
+    
+    private void loadEmprestimos() {
+        List<model.emprestimo> emprestimos = emprestimoControl.getAll();
+        
+//        tableEmprestimo.setEmprestimos(emprestimos);
+    }
+
+    private void initDataController() {
+        emprestimoControl = new emprestimoController();
+//        emprestimoControll = new emprestimoController();
+//        projectController = new ProjectController();
+    }
 }
