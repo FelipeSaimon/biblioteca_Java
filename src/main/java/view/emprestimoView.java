@@ -32,11 +32,13 @@ import javax.swing.LayoutStyle;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import model.cliente;
 import model.emprestimo;
 import net.proteanit.sql.DbUtils;
 //import net.proteanit.sql.DbUtils;
 import util.ConnectionFactory;
 import util.tableModelEmprestimo;
+
 /**
  *
  * @author Saimon
@@ -46,6 +48,7 @@ public class emprestimoView extends javax.swing.JInternalFrame {
     tableModelEmprestimo emprestimosModel;
     emprestimoController emprestimoControl;
     ConnectionFactory connect;
+
     /**
      * Creates new form emprestimosView
      */
@@ -98,6 +101,8 @@ public class emprestimoView extends javax.swing.JInternalFrame {
         consultar = new JButton();
         JButton closed = new JButton();
 
+        setResizable(true);
+
         jPanel1.setBackground(new Color(0, 102, 102));
 
         jLabel1.setFont(new Font("Segoe UI", 1, 36)); // NOI18N
@@ -114,6 +119,11 @@ public class emprestimoView extends javax.swing.JInternalFrame {
         });
 
         jLabel9.setIcon(new ImageIcon(getClass().getResource("/delete-user-icon-1.png"))); // NOI18N
+        jLabel9.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                jLabel9MouseClicked(evt);
+            }
+        });
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,7 +198,7 @@ public class emprestimoView extends javax.swing.JInternalFrame {
         formLivros.setBorder(BorderFactory.createEtchedBorder());
 
         jLabel3.setFont(new Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("Buscando pelo cliente");
+        jLabel3.setText("Buscando pelo cliente:");
 
         getPesqNome.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent evt) {
@@ -266,10 +276,10 @@ public class emprestimoView extends javax.swing.JInternalFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(getPesqNome, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addComponent(getPesqNome, GroupLayout.PREFERRED_SIZE, 284, GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
                 .addComponent(closed)
-                .addGap(0, 72, Short.MAX_VALUE))
+                .addGap(0, 68, Short.MAX_VALUE))
         );
         formLivrosLayout.setVerticalGroup(formLivrosLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(formLivrosLayout.createSequentialGroup()
@@ -344,33 +354,33 @@ public class emprestimoView extends javax.swing.JInternalFrame {
             emprestimo.setQtLivros(Integer.parseInt(getQtLivros.getText()));
             DateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
             try {
-                Date dataEmprestimo = formatoData.parse(getDataEmprestimo.getText());
-                Date dataDevolucao = formatoData.parse(getDataDevolucao.getText());
-                emprestimo.setDataEmprestimo(dataEmprestimo);
-                emprestimo.setDataDevolucao(dataDevolucao);
+//                Date dataEmprestimo = formatoData.parse(getDataEmprestimo.getText());
+                Date dataDevol = formatoData.parse(getDataDevolucao.getText());
+                
+//                emprestimo.setDataEmprestimo(dataEmprestimo);
+                emprestimo.setDataDevolucao(dataDevol);
             } catch (ParseException e) {
                 // Tratar exceção
+                JOptionPane.showMessageDialog(rootPane, e);
             }
-
-
             emprestimoControl.save(emprestimo);
+
             JOptionPane.showMessageDialog(rootPane, "emprestimo salvo com sucesso");
             getNomeCliente.setText(null);
             getDataDevolucao.setText(null);
             getQtLivros.setText(null);
             getDataEmprestimo.setText(null);
-            
 
-            loadEmprestimos();
+//            loadEmprestimos();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Erro ao adicionar um emprestimo");
+            JOptionPane.showMessageDialog(rootPane, e);
         }
     }//GEN-LAST:event_addEmprestimoMouseClicked
 
     private void PesquisaEmprestimos() {
         //Será preciso pensar em como verificar os emprestimos baseado no nome do cliente, quais livros estão emprestados a ele
-        String sql = "SELECT * FROM emprestimo INNER JOIN cliente cl ON emprestimo.idCliente = cliente.idCliente WHERE cl.nomeCliente like ?";
+        String sql = "SELECT * FROM emprestimo WHERE emprestimo.nomeCliente like ?";
         Connection connect = null;
         PreparedStatement statement = null;
         ResultSet resultado = null;
@@ -396,7 +406,15 @@ public class emprestimoView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_getPesqNomeKeyReleased
 
     private void consultar() {
-        String sql = "SELECT * FROM emprestimo WHERE idEmprestimo = ?";
+        String sql = "SELECT "
+                + "cliente.nomeCliente AS nome_cliente, "
+                + "emprestimo.QtdLivros AS quantidade_livros, "
+                + "emprestimo.dataEmprestimo, "
+                + "emprestimo.dataDevolucao "
+                + "FROM emprestimo "
+                + "INNER JOIN cliente ON emprestimo.idCliente = cliente.idCliente "
+                + "INNER JOIN livro ON emprestimo.idLivro = livro.idLivro "
+                + "WHERE emprestimo.idEmprestimo = ?";
 
         Connection connect = null;
         PreparedStatement statement = null;
@@ -408,11 +426,11 @@ public class emprestimoView extends javax.swing.JInternalFrame {
             statement.setString(1, idEmprestimoField.getText());
             resultado = statement.executeQuery();
             if (resultado.next()) {
-                getNomeCliente.setText(resultado.getString(2));
-                getQtLivros.setText(resultado.getString(3));
-                getDataEmprestimo.setText(resultado.getString(4));
-                getDataDevolucao.setText(resultado.getString(5));
-                
+                getNomeCliente.setText(resultado.getString(1));
+                getQtLivros.setText(resultado.getString(2));
+                getDataEmprestimo.setText(resultado.getString(3));
+                getDataDevolucao.setText(resultado.getString(4));
+
             } else {
                 JOptionPane.showMessageDialog(rootPane, "emprestimo nao cadastrado");
             }
@@ -432,6 +450,11 @@ public class emprestimoView extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_closedActionPerformed
 
+    private void jLabel9MouseClicked(MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        // TODO add your handling code here:
+        emprestimoControl.remove(Integer.parseInt( idEmprestimoField.getText()));
+    }//GEN-LAST:event_jLabel9MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     JPanel PanelClientes;
@@ -447,8 +470,7 @@ public class emprestimoView extends javax.swing.JInternalFrame {
     JTable tableEmprestimo;
     // End of variables declaration//GEN-END:variables
 
-
-public void decorateTableEmprestimo() {
+    public void decorateTableEmprestimo() {
 
         tableEmprestimo.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 
@@ -458,7 +480,6 @@ public void decorateTableEmprestimo() {
         tableEmprestimo.getAutoCreateRowSorter();
 
     }
-    
 
     //Gerencia a parte visual do jList
     public void initComponentsModel() {
@@ -470,10 +491,10 @@ public void decorateTableEmprestimo() {
 //            loadclientes();
 //        }
     }
-    
+
     private void loadEmprestimos() {
         List<model.emprestimo> emprestimos = emprestimoControl.getAll();
-        
+
 //        tableEmprestimo.setEmprestimos(emprestimos);
     }
 

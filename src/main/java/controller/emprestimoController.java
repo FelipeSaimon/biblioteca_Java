@@ -74,8 +74,8 @@ public class emprestimoController {
         
     }
     
-    public void remove(int idEmprestimo, int idCliente, int idLivro){
-        String sql = "DELETE FROM emprestimo WHERE idEmprestimo = ? OR idCliente = ? OR idLivro = ?";
+    public void remove(int idEmprestimo){
+        String sql = "DELETE FROM emprestimo WHERE idEmprestimo = ?";
         
         Connection connect = null;
         PreparedStatement stat = null;
@@ -85,8 +85,6 @@ public class emprestimoController {
             
             stat = (PreparedStatement) connect.prepareStatement(sql);
             stat.setInt(1, idEmprestimo);
-            stat.setInt(2, idCliente);
-            stat.setInt(3, idLivro);
             stat.execute();
             
         } catch (SQLException e) {

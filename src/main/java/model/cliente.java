@@ -1,7 +1,6 @@
 
 package model;
 
-import java.awt.event.WindowAdapter;
 
 /**
  *
@@ -9,8 +8,7 @@ import java.awt.event.WindowAdapter;
  */
 public class cliente {
 
-    public static void addWindowListener(WindowAdapter windowAdapter) {
-    }
+
     private int idCliente;
     private String nomeCliente;
     private String email;

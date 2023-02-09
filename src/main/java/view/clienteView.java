@@ -378,7 +378,7 @@ public class clienteView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_addClienteMouseClicked
 
     private void PesquisaClientes() {
-        String sql = "SELECT * FROM cliente WHERE nomeCliente like ?";
+        String sql = "SELECT * FROM cliente WHERE idCliente like ?";
         Connection connect = null;
         PreparedStatement statement = null;
         ResultSet resultado = null;

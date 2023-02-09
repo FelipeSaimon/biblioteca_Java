@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.table.DefaultTableCellRenderer;
 import model.emprestimo;
+import view.emprestimoView;
 //import view.emprestimoView;
 
 /**
@@ -39,9 +40,8 @@ public class prazoColor extends DefaultTableCellRenderer{
 
         label.setHorizontalAlignment(CENTER);
 
-        tableModelEmprestimo emprestimos = (tableModelEmprestimo) table.getModel();
-        emprestimo emprestimo;
-        emprestimo = tableModelEmprestimo.getEmprestimos().get(row);
+        tableModelEmprestimo emprestimosModel = (tableModelEmprestimo) table.getModel();
+        emprestimo emprestimo = emprestimosModel.getEmprestimos().get(row);
 
         if (emprestimo.getDataDevolucao().after(new Date())) {
             label.setBackground(Color.green);

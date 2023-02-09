@@ -16,7 +16,7 @@ import model.emprestimo;
  */
 public class tableModelEmprestimo extends AbstractTableModel {
 
-    String[] columns = {"Titulo", "Autor", "Ano de publicação", "Editora", "Excluir"};
+    String[] columns = {"idEmprestimo", "idLivro", "idCliente", "nomeCliente", "QtdLivros, dataEmprestimo, dataDevolucao"};
     List<emprestimo> emprestimos = new ArrayList();
 
     @Override
