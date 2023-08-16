@@ -184,7 +184,7 @@ public class clienteView extends javax.swing.JInternalFrame {
             .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING)
         );
         PanelClientesLayout.setVerticalGroup(PanelClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
         );
 
         formClientes.setBackground(new Color(255, 255, 255));
@@ -300,7 +300,7 @@ public class clienteView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel10)
                     .addComponent(idClienteField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(consultar))
-                .addGap(18, 18, 18)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(formClientesLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addGroup(formClientesLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
